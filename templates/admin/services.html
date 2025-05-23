@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админка - Управление услугами</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background-color: var(--gray-100);
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background-color: var(--gray-900);
+            color: var(--gray-200);
+            position: fixed;
+            padding: 20px 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-group {
+            margin-bottom: 25px;
+        }
+
+        .menu-title {
+            padding: 0 20px;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-bottom: 10px;
+        }
+
+        .menu-links {
+            list-style: none;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            color: var(--gray-300);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .menu-link:hover,
+        .menu-link.active {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: var(--white);
+        }
+
+        .menu-link i {
+            width: 24px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+
+        /* Header */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--gray-600);
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 8px 15px 8px 40px;
+            border: 1px solid var(--gray-200);
+            border-radius: 50px;
+            font-size: 14px;
+            width: 250px;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .notification,
+        .profile {
+            position: relative;
+            margin-left: 20px;
+        }
+
+        .notification-btn,
+        .profile-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--gray-600);
+            cursor: pointer;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        /* Admin container */
+        .admin-container {
+            padding: 30px;
+        }
+
+        .admin-section {
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .section-actions button {
+            padding: 6px 12px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .section-actions button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .section-body {
+            padding: 20px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            color: var(--gray-600);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        /* Services table */
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .services-table th,
+        .services-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .services-table th {
+            font-weight: 600;
+            color: var(--gray-700);
+            background-color: var(--gray-50);
+        }
+
+        .services-table tr:hover td {
+            background-color: var(--gray-50);
+        }
+
+        .services-table .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .services-table .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--gray-600);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .services-table .action-btn.edit:hover {
+            color: var(--primary);
+        }
+
+        .services-table .action-btn.delete:hover {
+            color: #ef4444;
+        }
+
+        .services-table .status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .services-table .status.active {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .services-table .status.inactive {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 250px;
+            padding: 0 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-300);
+            color: var(--gray-700);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-100);
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-100);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--gray-500);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .services-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .search-input {
+                width: 180px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .header-left {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .header-right {
+                display: none;
+            }
+
+            .admin-container {
+                padding: 15px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                margin: 0;
+            }
+
+            .form-col {
+                padding: 0;
+            }
+
+            .modal {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">
+                <i class="fas fa-cog"></i> Админ-панель
+            </h1>
+        </div>
+
+        <div class="sidebar-menu">
+            <div class="menu-group">
+                <h3 class="menu-title">Основное</h3>
+                <ul class="menu-links">
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-home"></i> Обзор
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-desktop"></i> Главная страница
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link active">
+                            <i class="fas fa-list"></i> Услуги
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <h3 class="menu-title">Контент</h3>
+                <ul class="menu-links">
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-star"></i> Преимущества
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-cogs"></i> Процесс работы
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-comments"></i> Отзывы
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-users"></i> Команда
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <h3 class="menu-title">Система</h3>
+                <ul class="menu-links">
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-cog"></i> Настройки
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-users-cog"></i> Пользователи
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-sign-out-alt"></i> Выйти
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="admin-header">
+            <div class="header-left">
+                <button class="toggle-sidebar" id="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Поиск услуг...">
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="notification">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                    </button>
+                </div>
+                <div class="profile">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="profile-img" alt="Profile">
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Container -->
+        <div class="admin-container">
+            <!-- Services Section -->
+            <div class="admin-section">
+                <div class="section-header">
+                    <h3 class="section-title">Управление услугами</h3>
+                    <div class="section-actions">
+                        <button id="add-service-btn">
+                            <i class="fas fa-plus"></i> Добавить услугу
+                        </button>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <div class="tabs">
+                        <div class="tab active">Все услуги</div>
+                        <div class="tab">Активные</div>
+                        <div class="tab">Неактивные</div>
+                    </div>
+
+                    <table class="services-table">
+                        <thead>
+                            <tr>
+                                <th>Название</th>
+                                <th>Категория</th>
+                                <th>Цена</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Дипломная работа</td>
+                                <td>Написание работ</td>
+                                <td>от 8 000 ₽</td>
+                                <td><span class="status active">Активна</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit" title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete" title="Удалить">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Курсовая работа</td>
+                                <td>Написание работ</td>
+                                <td>от 3 500 ₽</td>
+                                <td><span class="status active">Активна</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit" title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete" title="Удалить">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Разработка сайта</td>
+                                <td>IT услуги</td>
+                                <td>от 15 000 ₽</td>
+                                <td><span class="status active">Активна</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit" title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete" title="Удалить">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1С Программирование</td>
+                                <td>IT услуги</td>
+                                <td>от 1 200 ₽/час</td>
+                                <td><span class="status active">Активна</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit" title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete" title="Удалить">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Контрольная работа</td>
+                                <td>Написание работ</td>
+                                <td>от 1 800 ₽</td>
+                                <td><span class="status inactive">Неактивна</span></td>
+                                <td class="actions">
+                                    <button class="action-btn edit" title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete" title="Удалить">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Service Modal -->
+    <div class="modal-overlay" id="service-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Добавить новую услугу</h3>
+                <button class="modal-close" id="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="service-form">
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label">Название услуги</label>
+                                <input name="title" type="text" class="form-control"
+                                    placeholder="Например: Дипломная работа">
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label">Категория</label>
+                                <select class="form-control">
+                                    <option value="">Выберите категорию</option>
+                                    <option value="writing">Написание работ</option>
+                                    <option value="it">IT услуги</option>
+                                    <option value="consulting">Консультации</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label">Цена</label>
+                                <input type="text" class="form-control" placeholder="Например: от 8 000 ₽">
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label">Срок выполнения</label>
+                                <input type="text" class="form-control" placeholder="Например: от 14 дней">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Иконка (Font Awesome)</label>
+                        <input type="text" class="form-control" placeholder="Например: fa-graduation-cap">
+                        <small>Список доступных иконок: <a href="https://fontawesome.com/icons"
+                                target="_blank">fontawesome.com</a></small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label">Статус</label>
+                                <select class="form-control">
+                                    <option value="active">Активна</option>
+                                    <option value="inactive">Неактивна</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label class="form-label">Порядок отображения</label>
+                                <input type="number" class="form-control" value="1" min="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Описание услуги</label>
+                        <textarea class="form-control" rows="4" placeholder="Подробное описание услуги"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Дополнительные параметры</label>
+                        <div style="margin-top: 8px;">
+                            <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <input type="checkbox" style="margin-right: 8px;" checked> Показывать на главной
+                            </label>
+                            <label style="display: flex; align-items: center;">
+                                <input type="checkbox" style="margin-right: 8px;"> Возможен срочный заказ
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-btn">Отменить</button>
+                <button class="btn btn-primary">Сохранить услугу</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+
+</html>
