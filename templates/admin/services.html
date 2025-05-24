@@ -22,6 +22,10 @@
             --gray-700: #374151;
             --gray-800: #1f2937;
             --gray-900: #111827;
+            --error: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
         }
 
         * {
@@ -275,10 +279,16 @@
             color: var(--gray-600);
             font-weight: 500;
             position: relative;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--primary);
         }
 
         .tab.active {
             color: var(--primary);
+            font-weight: 600;
         }
 
         .tab.active::after {
@@ -289,6 +299,26 @@
             right: 0;
             height: 2px;
             background-color: var(--primary);
+        }
+
+        /* Tab content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         /* Services table */
@@ -358,6 +388,7 @@
         /* Form styles */
         .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
 
         .form-label {
@@ -380,6 +411,33 @@
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .form-control.error {
+            border-color: var(--error);
+        }
+
+        .form-control.success {
+            border-color: var(--success);
+        }
+
+        .form-control.warning {
+            border-color: var(--warning);
+        }
+
+        .form-control.info {
+            border-color: var(--info);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-control.error+.error-message {
+            display: block;
         }
 
         textarea.form-control {
@@ -523,6 +581,228 @@
             gap: 10px;
         }
 
+        /* Notifications */
+        .notification-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 320px;
+            background-color: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            display: none;
+            z-index: 100;
+        }
+
+        .notification-dropdown.active {
+            display: block;
+            animation: fadeInDown 0.3s;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .notification-header {
+            padding: 0 15px 10px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .mark-all-read {
+            font-size: 12px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .notification-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--gray-100);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .notification-item:hover {
+            background-color: var(--gray-50);
+        }
+
+        .notification-item.unread {
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .notification-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .notification-icon.error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+
+        .notification-icon.success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .notification-icon.warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .notification-icon.info {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: var(--info);
+        }
+
+        .notification-details {
+            flex: 1;
+        }
+
+        .notification-message {
+            font-size: 14px;
+            color: var(--gray-800);
+            margin-bottom: 4px;
+        }
+
+        .notification-time {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .notification-footer {
+            padding: 10px 15px 0;
+            text-align: center;
+        }
+
+        .view-all {
+            font-size: 14px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            animation: slideInRight 0.3s, fadeOut 0.5s 3s forwards;
+            max-width: 350px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+
+        .toast-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+        }
+
+        .toast-close {
+            margin-left: 10px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .toast-close:hover {
+            opacity: 1;
+        }
+
+        .toast-success {
+            background-color: var(--white);
+            border-left: 4px solid var(--success);
+            color: var(--gray-800);
+        }
+
+        .toast-error {
+            background-color: var(--white);
+            border-left: 4px solid var(--error);
+            color: var(--gray-800);
+        }
+
+        .toast-warning {
+            background-color: var(--white);
+            border-left: 4px solid var(--warning);
+            color: var(--gray-800);
+        }
+
+        .toast-info {
+            background-color: var(--white);
+            border-left: 4px solid var(--info);
+            color: var(--gray-800);
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .services-table {
@@ -547,6 +827,11 @@
 
             .search-input {
                 width: 180px;
+            }
+
+            .notification-dropdown {
+                width: 280px;
+                right: -50px;
             }
         }
 
@@ -590,6 +875,16 @@
 
             .modal {
                 width: 95%;
+            }
+
+            .notification-dropdown {
+                width: 100%;
+                right: 0;
+                left: 0;
+                position: fixed;
+                top: auto;
+                bottom: 0;
+                border-radius: 8px 8px 0 0;
             }
         }
     </style>
@@ -691,16 +986,77 @@
 
             <div class="header-right">
                 <div class="notification">
-                    <button class="notification-btn">
+                    <button class="notification-btn" id="notification-btn">
                         <i class="fas fa-bell"></i>
                         <span class="notification-count">3</span>
                     </button>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <h4 class="notification-title">Уведомления</h4>
+                            <span class="mark-all-read">Отметить все как прочитанные</span>
+                        </div>
+                        <div class="notification-list">
+                            <div class="notification-item unread">
+                                <div class="notification-content">
+                                    <div class="notification-icon error">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </div>
+                                    <div class="notification-details">
+                                        <div class="notification-message">Ошибка при сохранении услуги "Дипломная
+                                            работа"</div>
+                                        <div class="notification-time">2 минуты назад</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-content">
+                                    <div class="notification-icon success">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="notification-details">
+                                        <div class="notification-message">Новый пользователь зарегистрировался</div>
+                                        <div class="notification-time">1 час назад</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notification-content">
+                                    <div class="notification-icon warning">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="notification-details">
+                                        <div class="notification-message">Заканчивается срок выполнения заказа #12345
+                                        </div>
+                                        <div class="notification-time">3 часа назад</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="notification-item">
+                                <div class="notification-content">
+                                    <div class="notification-icon info">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="notification-details">
+                                        <div class="notification-message">Обновление системы запланировано на завтра
+                                        </div>
+                                        <div class="notification-time">Вчера, 18:30</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="notification-footer">
+                            <span class="view-all">Показать все уведомления</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="profile">
                     <img src="https://randomuser.me/api/portraits/men/32.jpg" class="profile-img" alt="Profile">
                 </div>
             </div>
         </div>
+
+        <!-- Toast notifications container -->
+        <div class="toast-container" id="toast-container"></div>
 
         <!-- Admin Container -->
         <div class="admin-container">
@@ -725,83 +1081,30 @@
                         <thead>
                             <tr>
                                 <th>Название</th>
-                                <th>Категория</th>
+                                <th>Описание</th>
+                                <th>Срок выполнения</th>
                                 <th>Цена</th>
                                 <th>Статус</th>
-                                <th>Действия</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Дипломная работа</td>
-                                <td>Написание работ</td>
-                                <td>от 8 000 ₽</td>
+                            {% for s in services %}
+                            <tr data-id="{{ s.id }}">
+                                <td>{{ s.title }}</td>
+                                <td>{{ s.description }}</td>
+                                <td>{{ s.duration }}</td>
+                                <td>{{ s.price }}</td>
                                 <td><span class="status active">Активна</span></td>
                                 <td class="actions">
                                     <button class="action-btn edit" title="Редактировать">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="action-btn delete" title="Удалить">
+                                    <button data-id="{{s.id}}" class="action-btn delete" title="Удалить">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Курсовая работа</td>
-                                <td>Написание работ</td>
-                                <td>от 3 500 ₽</td>
-                                <td><span class="status active">Активна</span></td>
-                                <td class="actions">
-                                    <button class="action-btn edit" title="Редактировать">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn delete" title="Удалить">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Разработка сайта</td>
-                                <td>IT услуги</td>
-                                <td>от 15 000 ₽</td>
-                                <td><span class="status active">Активна</span></td>
-                                <td class="actions">
-                                    <button class="action-btn edit" title="Редактировать">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn delete" title="Удалить">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1С Программирование</td>
-                                <td>IT услуги</td>
-                                <td>от 1 200 ₽/час</td>
-                                <td><span class="status active">Активна</span></td>
-                                <td class="actions">
-                                    <button class="action-btn edit" title="Редактировать">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn delete" title="Удалить">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Контрольная работа</td>
-                                <td>Написание работ</td>
-                                <td>от 1 800 ₽</td>
-                                <td><span class="status inactive">Неактивна</span></td>
-                                <td class="actions">
-                                    <button class="action-btn edit" title="Редактировать">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn delete" title="Удалить">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -819,19 +1122,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="service-form">
+                <form id="service-form" method="post">
                     <div class="form-row">
                         <div class="form-col">
                             <div class="form-group">
-                                <label class="form-label">Название услуги</label>
+                                <label class="form-label">Название услуги*</label>
                                 <input name="title" type="text" class="form-control"
-                                    placeholder="Например: Дипломная работа">
+                                    placeholder="Например: Дипломная работа" required>
+                                <div class="error-message">Пожалуйста, укажите название услуги</div>
                             </div>
                         </div>
                         <div class="form-col">
                             <div class="form-group">
                                 <label class="form-label">Категория</label>
-                                <select class="form-control">
+                                <select name="category" class="form-control">
                                     <option value="">Выберите категорию</option>
                                     <option value="writing">Написание работ</option>
                                     <option value="it">IT услуги</option>
@@ -844,21 +1148,26 @@
                     <div class="form-row">
                         <div class="form-col">
                             <div class="form-group">
-                                <label class="form-label">Цена</label>
-                                <input type="text" class="form-control" placeholder="Например: от 8 000 ₽">
+                                <label class="form-label">Цена*</label>
+                                <input name="price" type="text" class="form-control" placeholder="Например: от 8 000 ₽"
+                                    required>
+                                <div class="error-message">Пожалуйста, укажите цену</div>
+                                <div class="error-message">Пожалуйста, укажите срок выполнения</div>
                             </div>
                         </div>
                         <div class="form-col">
                             <div class="form-group">
-                                <label class="form-label">Срок выполнения</label>
-                                <input type="text" class="form-control" placeholder="Например: от 14 дней">
+                                <label class="form-label">Срок выполнения*</label>
+                                <input name="duration" type="text" class="form-control"
+                                    placeholder="Например: от 14 дней" required>
+                                <div class="error-message">Пожалуйста, укажите срок выполнения</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Иконка (Font Awesome)</label>
-                        <input type="text" class="form-control" placeholder="Например: fa-graduation-cap">
+                        <input name="icon" type="text" class="form-control" placeholder="Например: fa-graduation-cap">
                         <small>Список доступных иконок: <a href="https://fontawesome.com/icons"
                                 target="_blank">fontawesome.com</a></small>
                     </div>
@@ -867,7 +1176,7 @@
                         <div class="form-col">
                             <div class="form-group">
                                 <label class="form-label">Статус</label>
-                                <select class="form-control">
+                                <select name="status" class="form-control">
                                     <option value="active">Активна</option>
                                     <option value="inactive">Неактивна</option>
                                 </select>
@@ -882,8 +1191,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Описание услуги</label>
-                        <textarea class="form-control" rows="4" placeholder="Подробное описание услуги"></textarea>
+                        <label class="form-label">Описание услуги*</label>
+                        <textarea name="description" class="form-control" rows="4"
+                            placeholder="Подробное описание услуги" required></textarea>
+                        <div class="error-message">Пожалуйста, добавьте описание услуги</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Преимущества</label>
+                        <textarea name="advantages" class="form-control" rows="4"
+                            placeholder="Преимущества через ;"></textarea>
                     </div>
 
                     <div class="form-group">
@@ -901,7 +1218,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" id="cancel-btn">Отменить</button>
-                <button class="btn btn-primary">Сохранить услугу</button>
+                <button type="submit" class="btn btn-primary" id="save-service-btn">Сохранить услугу</button>
             </div>
         </div>
     </div>

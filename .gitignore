@@ -1,2 +1,31 @@
-venv
-__pycache_
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg
+*.egg-info/
+*.log
+*.sqlite3
+instance/
+.env
+.env.*
+
+# Virtual env
+venv/
+ENV/
+env/
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# Flask
+*.db
+*.sqlite
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
