@@ -1,217 +1,61 @@
-let editingId = null;
-
-// Боковое меню
-const toggleSidebar = document.getElementById('toggle-sidebar');
-toggleSidebar?.addEventListener('click', () => {
-    document.getElementById('sidebar')?.classList.toggle('active');
-    document.querySelector('.main-content')?.classList.toggle('active');
+// Toggle sidebar
+document.getElementById('toggle-sidebar').addEventListener('click', function () {
+    document.getElementById('sidebar').classList.toggle('active');
 });
 
-// Уведомления
-const notificationBtn = document.getElementById('notification-btn');
-notificationBtn?.addEventListener('click', e => {
-    e.stopPropagation();
-    document.getElementById('notification-dropdown')?.classList.toggle('active');
-});
-document.addEventListener('click', e => {
-    if (!e.target.closest('.notification')) {
-        document.getElementById('notification-dropdown')?.classList.remove('active');
-    }
-});
+// Tab switching
+const menuLinks = document.querySelectorAll('.menu-link');
+menuLinks.forEach(link => {
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
 
-// Tabs
-const tabs = document.querySelectorAll('.tab');
-tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById(tab.dataset.tab)?.classList.add('active');
+        // Remove active class from all links and tabs
+        menuLinks.forEach(l => l.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+
+        // Add active class to clicked link
+        this.classList.add('active');
+
+        // Show corresponding tab
+        const tabId = this.getAttribute('data-tab') + '-tab';
+        document.getElementById(tabId).classList.add('active');
     });
 });
 
-// Toast уведомления
-function showToast(type, title, message) {
-    const toastContainer = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    const icons = {
-        success: 'fa-check-circle',
-        error: 'fa-exclamation-circle',
-        warning: 'fa-exclamation-triangle',
-        info: 'fa-info-circle'
-    };
-    toast.className = `toast toast-${type}`;
-    toast.innerHTML = `
-        <div class="toast-icon"><i class="fas ${icons[type] || 'fa-info-circle'}"></i></div>
-        <div class="toast-content">
-            <div class="toast-title">${title}</div>
-            <div class="toast-message">${message}</div>
-        </div>
-        <div class="toast-close"><i class="fas fa-times"></i></div>
-    `;
-    toastContainer.appendChild(toast);
-    setTimeout(() => toast.remove(), 5000);
-    toast.querySelector('.toast-close').addEventListener('click', () => toast.remove());
-}
+// Service tabs switching
+const serviceTabs = document.querySelectorAll('[data-service-tab]');
+if (serviceTabs.length > 0) {
+    serviceTabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            // Remove active class from all tabs
+            serviceTabs.forEach(t => t.classList.remove('active'));
 
-// Модалка
-const modal = document.getElementById('service-modal');
-document.getElementById('add-service-btn')?.addEventListener('click', () => openModal('add'));
-document.getElementById('modal-close')?.addEventListener('click', closeModal);
-document.getElementById('cancel-btn')?.addEventListener('click', closeModal);
-modal?.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+            // Add active class to clicked tab
+            this.classList.add('active');
 
-function openModal(mode = 'add') {
-    const form = document.getElementById('service-form');    
-     if (mode === 'add') {
-        editingId = null;
-        form.reset();
-    }
-    form.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
-    document.querySelector('.modal-title').textContent = mode === 'add' ? 'Добавить услугу' : 'Редактировать услугу';
-    modal.classList.add('active');
-}
-
-function closeModal() {
-    editingId = null;
-    document.getElementById('service-form').reset();
-    modal.classList.remove('active');
-}
-
-// Сохранение
-const saveBtn = document.getElementById('save-service-btn');
-saveBtn?.addEventListener('click', async () => {
-    const form = document.getElementById('service-form');
-    const requiredFields = form.querySelectorAll('[required]');
-    let isValid = true;
-
-    requiredFields.forEach(field => {
-        const empty = !field.value.trim();
-        field.classList.toggle('error', empty);
-        if (empty) isValid = false;
-    });
-
-    if (!isValid) {
-        showToast('error', 'Ошибка', 'Пожалуйста, заполните все обязательные поля');
-        return;
-    }
-
-    const data = {
-        title: form.querySelector('[name="title"]').value.trim(),
-        description: form.querySelector('[name="description"]').value.trim(),
-        duration: form.querySelector('[name="duration"]').value.trim(),
-        price: form.querySelector('[name="price"]').value.replace(/[^0-9]/g, ''),
-        advantages: form.querySelector('[name="advantages"]').value.trim(),
-        category: form.querySelector('[name="category"]')?.value || '',
-        icon: form.querySelector('[name="icon"]')?.value || '',
-        status: form.querySelector('[name="status"]')?.value || 'active',        
-    };
-
-    const isEdit = !!editingId;
-    const url = isEdit ? `/admin/api/services/${editingId}` : '/admin/api/services/create';
-    const method = isEdit ? 'PUT' : 'POST';
-
-    console.log(url, method)
-
-    try {        
-        const response = await fetch(url, {
-            method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            // Here you would typically load the corresponding content
+            // For this example, we're just showing a placeholder
         });
-        const service = await response.json();
-        if (isEdit) updateRow(service);
-        else addRow(service);
-        showToast('success', 'Успешно', isEdit ? 'Услуга обновлена' : 'Услуга добавлена');
-        closeModal();
-    } catch (e) {
-        console.error(e);
-        showToast('error', 'Ошибка', 'Не удалось сохранить услугу');
-    }
+    });
+}
+
+// Image upload preview
+const uploadButtons = document.querySelectorAll('.upload-btn');
+uploadButtons.forEach(button => {
+    button.addEventListener('click', function () {
+        // In a real app, this would open a file dialog
+        // For this example, we'll just simulate it
+        const preview = this.closest('.image-upload').querySelector('.image-preview');
+        preview.innerHTML = '<img src="https://via.placeholder.com/300" alt="Preview">';
+    });
 });
 
-function openEditModal(id) {
-    fetch(`/admin/api/services/${id}`)
-        .then(res => res.json())
-        .then(service => {
-            const form = document.getElementById('service-form');
-            form.querySelector('[name="title"]').value = service.title;
-            form.querySelector('[name="description"]').value = service.description;
-            form.querySelector('[name="duration"]').value = service.duration;
-            form.querySelector('[name="price"]').value = service.price;
-            form.querySelector('[name="advantages"]').value = service.advantages;
-            form.querySelector('[name="category"]').value = service.category || '';
-            form.querySelector('[name="icon"]').value = service.icon || '';
-            form.querySelector('[name="status"]').value = service.status || 'active';            
-            editingId = id;
-            openModal('edit');
-        });
-}
-
-function updateRow(service) {
-    const row = document.querySelector(`tr[data-id="${service.id}"]`);
-    if (row) {
-        row.innerHTML = `
-            <td>${service.title}</td>
-            <td>${service.description}</td>
-            <td>${service.duration}</td>
-            <td>${service.price} ₽</td>
-            <td><span class="status ${service.status}">
-                ${service.status === 'active' ? 'Активна' : 'Неактивна'}
-            </span></td>
-            <td class="actions">
-                <button class="action-btn edit" data-id="${service.id}" title="Редактировать"><i class="fas fa-edit"></i></button>
-                <button class="action-btn delete" data-id="${service.id}" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-            </td>
-        `;
-
-        
-        row.querySelector('.action-btn.edit').addEventListener('click', () => openEditModal(service.id));
-        row.querySelector('.action-btn.delete').addEventListener('click', () => deleteService(service.id, row));
+// Responsive adjustments
+function handleResize() {
+    if (window.innerWidth > 992) {
+        document.getElementById('sidebar').classList.remove('active');
     }
 }
 
-function addRow(service) {
-    const tbody = document.querySelector('.services-table tbody');
-    const row = document.createElement('tr');
-    row.dataset.id = service.id;
-    row.innerHTML = `
-        <td>${service.title}</td>
-        <td>${service.description}</td>
-        <td>${service.duration}</td>
-        <td>${service.price} ₽</td>
-        <td><span class="status ${service.status}">${service.status === 'active' ? 'Активна' : 'Неактивна'}</span></td>
-        <td class="actions">
-            <button class="action-btn edit" data-id="${service.id}" title="Редактировать"><i class="fas fa-edit"></i></button>
-            <button class="action-btn delete" data-id="${service.id}" title="Удалить"><i class="fas fa-trash-alt"></i></button>
-        </td>
-    `;
-    tbody.prepend(row);
-    row.querySelector('.action-btn.edit').addEventListener('click', () => openEditModal(service.id));
-    row.querySelector('.action-btn.delete').addEventListener('click', () => deleteService(service.id, row));
-}
-
-function deleteService(id, row) {
-    if (!confirm('Удалить услугу?')) return;
-    fetch(`/admin/api/services/${id}`, { method: 'DELETE' })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                row.remove();
-                showToast('success', 'Успешно', 'Услуга удалена');
-            }
-        });
-}
-
-function attachInitialHandlers() {
-    document.querySelectorAll('.action-btn.edit').forEach(btn => {
-        const id = btn.closest('tr')?.dataset.id;
-        if (id) btn.addEventListener('click', () => openEditModal(id));
-    });
-    document.querySelectorAll('.action-btn.delete').forEach(btn => {
-        const row = btn.closest('tr');
-        const id = btn.dataset.id;
-        if (row && id) btn.addEventListener('click', () => deleteService(id, row));
-    });
-}
-
-attachInitialHandlers();
+window.addEventListener('resize', handleResize);
+handleResize();

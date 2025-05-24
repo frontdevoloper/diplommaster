@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админка - Academic & IT Solutions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">AIS</div>
+            <h1 class="sidebar-title">Academic & IT</h1>
+        </div>
+
+        <div class="sidebar-menu">
+            <div class="menu-group">
+                <h3 class="menu-title">Основное</h3>
+                <ul class="menu-links">
+                    <li>
+                        <a href="#" class="menu-link active" data-tab="dashboard">
+                            <i class="fas fa-home"></i> Обзор
+                            <span class="menu-badge">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link" data-tab="hero">
+                            <i class="fas fa-desktop"></i> Hero секция
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link" data-tab="services">
+                            <i class="fas fa-list"></i> Услуги
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <h3 class="menu-title">Контент</h3>
+                <ul class="menu-links">
+                    <li>
+                        <a href="#" class="menu-link" data-tab="features">
+                            <i class="fas fa-star"></i> Преимущества
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link" data-tab="process">
+                            <i class="fas fa-cogs"></i> Процесс работы
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link" data-tab="testimonials">
+                            <i class="fas fa-comments"></i> Отзывы
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link" data-tab="team">
+                            <i class="fas fa-users"></i> Команда
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-group">
+                <h3 class="menu-title">Система</h3>
+                <ul class="menu-links">
+                    <li>
+                        <a href="#" class="menu-link" data-tab="settings">
+                            <i class="fas fa-cog"></i> Настройки
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-users-cog"></i> Пользователи
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="menu-link">
+                            <i class="fas fa-sign-out-alt"></i> Выйти
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="admin-header">
+            <div class="header-left">
+                <button class="toggle-sidebar" id="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Поиск...">
+                </div>
+            </div>
+
+            <div class="header-right">
+                <div class="header-action notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">3</span>
+                </div>
+                <div class="header-action">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="profile">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="profile-img" alt="Profile">
+                    <div class="profile-info">
+                        <span class="profile-name">Алексей Петров</span>
+                        <span class="profile-role">Администратор</span>
+                    </div>
+                    <div class="profile-dropdown">
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user"></i> Профиль
+                        </a>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog"></i> Настройки
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i> Выйти
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block content %}{% endblock %}
+       
+        
+    </div>
+
+    <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>  
+</body>
+</html>
