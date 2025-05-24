@@ -23,7 +23,7 @@ env/
 
 # Flask
 *.db
-*.sqlite
+*.sqlite3
 *.bak
 
 # OS
