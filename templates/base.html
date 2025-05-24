@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic & IT Solutions - Профессиональная помощь</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>        
+   
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">AIS</div>
+                <span class="logo-text">Academic & IT Solutions</span>
+            </a>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#" class="nav-link">Главная</a></li>
+
+                    <li class="dropdown">
+                        <button class="nav-link dropdown-btn">
+                            Услуги <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="#">Дипломные работы</a>
+                            <a href="#">Курсовые работы</a>
+                            <a href="#">Рефераты</a>
+                            <a href="#">Разработка сайтов</a>
+                            <a href="#">1С разработка</a>
+                        </div>
+                    </li>
+
+                    <li><a href="#" class="nav-link">Цены</a></li>
+                    <li><a href="#" class="nav-link">Отзывы</a></li>
+                    <li><a href="#" class="nav-link">Блог</a></li>
+                    <li><a href="#" class="nav-link">Контакты</a></li>
+                </ul>
+
+                <div class="auth-buttons" id="auth-btns">
+                    <a href="#" class="btn btn-outline" id="login-btn">Вход</a>
+                    <a href="#" class="btn btn-primary" id="register-btn">Регистрация</a>
+                </div>
+
+                <div class="user-profile" id="user-profile">
+                    <button class="user-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="user-menu">
+                        <a href="#"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="#"><i class="fas fa-cog"></i> Настройки</a>
+                        <a href="#"><i class="fas fa-file-alt"></i> Мои заказы</a>
+                        <div class="user-divider"></div>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Выход</a>
+                    </div>
+                </div>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="modal-overlay" id="login-modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <button class="modal-close" id="login-close">&times;</button>
+                <h2>Вход в аккаунт</h2>
+                <p>Введите свои данные для входа</p>
+            </div>
+            <div class="modal-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email" class="form-label">Email</label>
+                        <input type="email" id="login-email" class="form-input" placeholder="Введите ваш email" required>
+                        <i class="fas fa-envelope form-input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password" class="form-label">Пароль</label>
+                        <input type="password" id="login-password" class="form-input" placeholder="Введите ваш пароль" required>
+                        <i class="fas fa-lock form-input-icon"></i>
+                    </div>
+                    
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="remember-me">
+                        <span class="checkmark"></span>
+                        <label for="remember-me">Запомнить меня</label>
+                    </div>
+                    
+                    <button type="submit" class="form-submit">Войти</button>
+                    
+                    <div class="form-divider">или</div>
+                    
+                    <div class="social-login">
+                        <button type="button" class="social-btn google">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button type="button" class="social-btn facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button type="button" class="social-btn twitter">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="form-footer">
+                        Нет аккаунта? <a href="#" id="switch-to-register">Зарегистрироваться</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно регистрации -->
+    <div class="modal-overlay" id="register-modal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <button class="modal-close" id="register-close">&times;</button>
+                <h2>Создать аккаунт</h2>
+                <p>Заполните форму для регистрации</p>
+            </div>
+            <div class="modal-body">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name" class="form-label">Имя</label>
+                        <input type="text" id="register-name" class="form-input" placeholder="Введите ваше имя" required>
+                        <i class="fas fa-user form-input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-email" class="form-label">Email</label>
+                        <input type="email" id="register-email" class="form-input" placeholder="Введите ваш email" required>
+                        <i class="fas fa-envelope form-input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-password" class="form-label">Пароль</label>
+                        <input type="password" id="register-password" class="form-input" placeholder="Создайте пароль" required>
+                        <i class="fas fa-lock form-input-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="register-confirm" class="form-label">Подтверждение пароля</label>
+                        <input type="password" id="register-confirm" class="form-input" placeholder="Повторите пароль" required>
+                        <i class="fas fa-lock form-input-icon"></i>
+                    </div>
+                    
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="agree-terms" required>
+                        <span class="checkmark"></span>
+                        <label for="agree-terms">Я согласен с <a href="#">условиями использования</a></label>
+                    </div>
+                    
+                    <button type="submit" class="form-submit">Зарегистрироваться</button>
+                    
+                    <div class="form-footer">
+                        Уже есть аккаунт? <a href="#" id="switch-to-login">Войти</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>    
+
+    <!-- Кнопка "Наверх" -->
+    <a href="#" class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
+    <script src="/static/js/auth.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>    
+</body>
+</html>

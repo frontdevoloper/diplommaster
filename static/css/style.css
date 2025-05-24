@@ -14,6 +14,10 @@
     --gray-700: #374151;
     --gray-800: #1f2937;
     --gray-900: #111827;
+    --error: #ef4444;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --info: #3b82f6;
 }
 
 * {
@@ -28,6 +32,99 @@ body {
     color: var(--gray-800);
     line-height: 1.6;
     overflow-x: hidden;
+}
+
+/* Фикс для предотвращения смещения контента при открытии модального окна */
+html.modal-open {
+    overflow: hidden;
+}
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+}
+
+.toast {
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    animation: slideInRight 0.3s, fadeOut 0.5s 3s forwards;
+    max-width: 350px;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+.toast-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.toast-message {
+    font-size: 14px;
+}
+
+.toast-close {
+    margin-left: 10px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+.toast-success {
+    background-color: var(--white);
+    border-left: 4px solid var(--success);
+    color: var(--gray-800);
+}
+
+.toast-error {
+    background-color: var(--white);
+    border-left: 4px solid var(--error);
+    color: var(--gray-800);
+}
+
+.toast-warning {
+    background-color: var(--white);
+    border-left: 4px solid var(--warning);
+    color: var(--gray-800);
+}
+
+.toast-info {
+    background-color: var(--white);
+    border-left: 4px solid var(--info);
+    color: var(--gray-800);
 }
 
 /* Шапка */
@@ -187,6 +284,10 @@ nav {
     align-items: center;
 }
 
+.auth-buttons.hidden {
+    display: none;
+}
+
 .btn {
     padding: 8px 18px;
     border-radius: 50px;
@@ -318,6 +419,380 @@ nav {
     font-size: 20px;
     cursor: pointer;
     margin-left: 15px;
+}
+
+/* Модальные окна */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-container {
+    background-color: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    transform: translateY(20px);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+    margin: auto;
+}
+
+.modal-overlay.active .modal-container {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-header {
+    padding: 25px;
+    position: relative;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+    text-align: center;
+}
+
+.modal-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.modal-header p {
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--gray-700);
+    font-size: 14px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background-color: var(--white);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.form-input-icon {
+    position: absolute;
+    right: 15px;
+    top: 40px;
+    color: var(--gray-500);
+}
+
+/* Исправленные стили для чекбоксов */
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--gray-600);
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: var(--gray-100);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.checkbox-container:hover .checkmark {
+    background-color: var(--gray-200);
+}
+
+.checkbox-container input:checked~.checkmark {
+    background-color: var(--primary);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-container input:checked~.checkmark:after {
+    display: block;
+}
+
+.checkbox-container a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.form-submit {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.form-submit::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.form-submit:hover::before {
+    left: 100%;
+}
+
+.form-divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: var(--gray-500);
+    font-size: 14px;
+}
+
+.form-divider::before,
+.form-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--gray-200);
+    margin: 0 10px;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.social-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 20px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.social-btn.google {
+    background-color: #DB4437;
+}
+
+.social-btn.facebook {
+    background-color: #4267B2;
+}
+
+.social-btn.twitter {
+    background-color: #1DA1F2;
+}
+
+.social-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: var(--gray-600);
+}
+
+.form-footer a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* Анимации для модальных окон */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+/* Анимация для ввода */
+.input-animate {
+    position: relative;
+}
+
+.input-animate::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    transition: width 0.4s ease;
+}
+
+.input-animate.focus::after {
+    width: 100%;
+}
+
+/* Анимация для переключения между формами */
+.form-switch {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form-switch-btn {
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 5px 10px;
+    position: relative;
+}
+
+.form-switch-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    width: calc(100% - 20px);
+    height: 2px;
+    background-color: var(--primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
+
+.form-switch-btn:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 /* Герой секция */
@@ -1472,4 +1947,3 @@ footer {
         font-size: 26px;
     }
 }
-

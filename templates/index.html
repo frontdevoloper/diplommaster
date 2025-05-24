@@ -1,72 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Academic & IT Solutions - Профессиональная помощь</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-</head>
-
-<body>
-    <!-- Шапка сайта -->
-    <header>
-        <div class="header-container">
-            <a href="#" class="logo">
-                <div class="logo-icon">AIS</div>
-                <span class="logo-text">Academic & IT Solutions</span>
-            </a>
-
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#" class="nav-link">Главная</a></li>
-
-                    <li class="dropdown">
-                        <button class="nav-link dropdown-btn">
-                            Услуги <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                            <a href="#">Дипломные работы</a>
-                            <a href="#">Курсовые работы</a>
-                            <a href="#">Рефераты</a>
-                            <a href="#">Разработка сайтов</a>
-                            <a href="#">1С разработка</a>
-                        </div>
-                    </li>
-
-                    <li><a href="#" class="nav-link">Цены</a></li>
-                    <li><a href="#" class="nav-link">Отзывы</a></li>
-                    <li><a href="#" class="nav-link">Блог</a></li>
-                    <li><a href="#" class="nav-link">Контакты</a></li>
-                </ul>
-
-                <div class="auth-bbuttons">
-                    <a href="#" class="btn btn-outline">Вход</a>
-                    <a href="#" class="btn btn-primary">Регистрация</a>
-                </div>
-
-                <div class="user-profile">
-                    <button class="user-btn">
-                        <i class="fas fa-user"></i>
-                    </button>
-                    <div class="user-menu">
-                        <a href="#"><i class="fas fa-user"></i> Профиль</a>
-                        <a href="#"><i class="fas fa-cog"></i> Настройки</a>
-                        <a href="#"><i class="fas fa-file-alt"></i> Мои заказы</a>
-                        <div class="user-divider"></div>
-                        <a href="#"><i class="fas fa-sign-out-alt"></i> Выход</a>
-                    </div>
-                </div>
-
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </nav>
-        </div>
-    </header>
-
+    {% extends 'base.html' %}  
+    
+    {% block content %}
     <!-- Герой-секция -->
     <section class="hero">
         <!-- Анимированные фоновые элементы -->
@@ -75,7 +9,7 @@
         <div class="shape-blob blob-3"></div>
 
         <div class="hero-container">
-            <div class="hero-content">
+            <div class="hero-content">                
                 <h1 class="hero-title">
                     Профессиональная помощь в
                     <span class="text-gradient">написании работ</span>
@@ -617,12 +551,10 @@
         </div>
     </footer>
 
+    {% endblock %}
+
     <!-- Кнопка "Наверх" -->
     <a href="#" class="back-to-top" id="back-to-top">
         <i class="fas fa-arrow-up"></i>
     </a>
-
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-</body>
-
-</html>
+ 

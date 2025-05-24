@@ -1,8 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 from datetime import datetime
-
-db = SQLAlchemy()
+from extensions import db, bcrypt, jwt
 
 
 class User(db.Model):
@@ -24,6 +22,21 @@ class User(db.Model):
     messages = relationship('ChatMessage', backref='user', lazy=True)
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def check_password(self, password_plain):
+        return bcrypt.check_password_hash(self.password_hash, password_plain)
+
+    def set_password(self, password_plain):
+        self.password_hash = bcrypt.generate_password_hash(password_plain).decode('utf-8')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'email': self.email,
+            'full_name': self.full_name,
+            'avatar': self.avatar,
+            'is_admin': self.is_admin
+        }
 
     def __repr__(self):
         return f"<User {self.email}>"
@@ -68,6 +81,10 @@ class Service(db.Model):
     icon = db.Column(db.String(100))          
     status = db.Column(db.String(20))       
     order = db.Column(db.Integer, default=1)
+
+class Test(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200))
 
 
 def service_to_dict(service):

@@ -8,6 +8,10 @@ window.addEventListener('scroll', function () {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    updateUIForAuth();
+});
+
 // Плавная прокрутка для якорных ссылок
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -113,3 +117,143 @@ mobileMenuButton.addEventListener('click', function () {
 mobileMenu.querySelector('.close-menu').addEventListener('click', function () {
     mobileMenu.style.transform = 'translateY(-100%)';
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const loginBtn = document.getElementById('login-btn');
+    const registerBtn = document.getElementById('register-btn');
+    const loginModal = document.getElementById('login-modal');
+    const registerModal = document.getElementById('register-modal');
+    const loginClose = document.getElementById('login-close');
+    const registerClose = document.getElementById('register-close');
+    const switchToRegister = document.getElementById('switch-to-register');
+    const switchToLogin = document.getElementById('switch-to-login');
+
+    // Открытие модального окна входа
+    loginBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.documentElement.classList.add('modal-open');
+        loginModal.classList.add('active');
+    });
+
+    // Открытие модального окна регистрации
+    registerBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.documentElement.classList.add('modal-open');
+        registerModal.classList.add('active');
+    });
+
+    // Закрытие модального окна входа
+    loginClose.addEventListener('click', function () {
+        document.documentElement.classList.remove('modal-open');
+        loginModal.classList.remove('active');
+    });
+
+    // Закрытие модального окна регистрации
+    registerClose.addEventListener('click', function () {
+        document.documentElement.classList.remove('modal-open');
+        registerModal.classList.remove('active');
+    });
+
+    // Переключение на форму регистрации
+    switchToRegister.addEventListener('click', function (e) {
+        e.preventDefault();
+        loginModal.classList.remove('active');
+        registerModal.classList.add('active');
+    });
+
+    // Переключение на форму входа
+    switchToLogin.addEventListener('click', function (e) {
+        e.preventDefault();
+        registerModal.classList.remove('active');
+        loginModal.classList.add('active');
+    });
+
+    // Закрытие модальных окон при клике вне их области
+    window.addEventListener('click', function (e) {
+        if (e.target === loginModal) {
+            document.documentElement.classList.remove('modal-open');
+            loginModal.classList.remove('active');
+        }
+        if (e.target === registerModal) {
+            document.documentElement.classList.remove('modal-open');
+            registerModal.classList.remove('active');
+        }
+    });
+
+    // Обработка форм
+    document.getElementById('login-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+
+        secureFetch('/api/login', {
+            method: 'POST',
+            body: JSON.stringify({ email, password })
+        })
+            .then(data => {
+                document.documentElement.classList.remove('modal-open');
+                loginModal.classList.remove('active');
+                updateUIForAuth();
+                showToast('success', 'Успешно', 'Вы успешно вошли в систему!');
+            })
+            .catch(err => showToast('error', 'Ошибка', `Не удалось войти, ошибка: ${err}`));
+    });
+
+
+    document.getElementById('register-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const full_name = document.getElementById('register-name').value.trim();
+        const email = document.getElementById('register-email').value.trim();
+        const password = document.getElementById('register-password').value;
+        const confirm = document.getElementById('register-confirm').value;
+
+        if (password !== confirm) {
+            showToast('error', 'Ошибка', 'Пароли не совпадают')            
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ full_name, email, password })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                showToast('success', 'Успешно', 'Вы успешно зарегестрировались в системе!');
+                updateUIForAuth();
+                document.documentElement.classList.remove('modal-open');
+                registerModal.classList.remove('active');
+            } else {
+                showToast('error', 'Ошибка', `Не удалось зарегестрироваться, ошибка: ${data.error || "Ошибка регистрации"}`)
+            }
+        } catch (err) {
+            console.error(err);
+            showToast('error', 'Ошибка', `Не удалось зарегестрироваться, ошибка подключения`) 
+        }
+    });
+});
+
+document.getElementById('logout-btn')?.addEventListener('click', async () => {
+    try {
+        await secureFetch('/api/logout', {
+            method: 'POST'
+        });
+
+        updateUIForAuth();
+
+        showToast('success', 'Готово', 'Вы успешно вышли из системы!')
+    } catch (err) {
+        alert('Ошибка выхода: ' + err.message);
+    }
+});
+
+function getCookie(name) {
+    const matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([$?*|{}()\]\\[\]\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
