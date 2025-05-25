@@ -74,17 +74,17 @@ class Service(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text)
+    icon = db.Column(db.String(100))
+    progress = db.Column(db.Integer)
+    color = db.Column(db.String(20))
     duration = db.Column(db.String(100))
     price = db.Column(db.Float)
     advantages = db.Column(db.Text)
     category = db.Column(db.String(100))    
-    icon = db.Column(db.String(100))          
-    status = db.Column(db.String(20))       
+    icon = db.Column(db.String(100)) 
+    button_text = db.Column(db.String(100))         
+    status = db.Column(db.String(20), default='active')       
     order = db.Column(db.Integer, default=1)
-
-class Test(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200))
 
 
 def service_to_dict(service):

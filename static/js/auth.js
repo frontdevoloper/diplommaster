@@ -10,32 +10,23 @@ function getCookie(name) {
 async function secureFetch(url, options = {}) {
     const csrf = getCookie('csrf_access_token');
 
-    const finalOptions = {
-        method: 'GET',
-        credentials: 'include',
-        ...options,
+    const res = await fetch(url, {
+        credentials: 'include',               // вот это главное
         headers: {
             'Content-Type': 'application/json',
-            ...(options.headers || {}),
             ...(csrf ? { 'X-CSRF-TOKEN': csrf } : {})
-        }
-    };
-
-    const res = await fetch(url, finalOptions);
-    const contentType = res.headers.get('Content-Type');
-
-    let data = {};
-    if (contentType && contentType.includes('application/json')) {
-        data = await res.json().catch(() => ({}));
-    }
+        },
+        ...options                            // сюда приходит ваш method и body
+    });
+    
+    const contentType = res.headers.get('Content-Type') || '';
+    const data = contentType.includes('application/json')
+        ? await res.json().catch(() => ({}))
+        : {};
 
     if (!res.ok) {
-        throw {
-            status: res.status,
-            message: data?.msg || data?.error || 'Ошибка запроса'
-        };
+        throw { status: res.status, message: data.error || data.msg || res.statusText };
     }
-
     return data;
 }
 
@@ -54,17 +45,17 @@ async function updateUIForAuth() {
     const user = await getCurrentUser();
 
     const profileBlock = document.getElementById('user-profile');
-    const authBtns = document.getElementById('auth-btns');    
+    const authBtns = document.getElementById('auth-btns');
 
     if (user) {
         // Пользователь авторизован        
         profileBlock.style.display = 'inline-block';
 
-        authBtns?.classList.add('hidden');       
+        authBtns?.classList.add('hidden');
     } else {
         // Не авторизован
         profileBlock.style.display = 'none';
-        authBtns?.classList.remove('hidden');        
+        authBtns?.classList.remove('hidden');
     }
 }
 

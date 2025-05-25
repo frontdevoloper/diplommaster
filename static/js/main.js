@@ -187,55 +187,61 @@ document.addEventListener('DOMContentLoaded', function () {
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
 
-        secureFetch('/api/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, password })
-        })
-            .then(data => {
-                document.documentElement.classList.remove('modal-open');
-                loginModal.classList.remove('active');
-                updateUIForAuth();
-                showToast('success', 'Успешно', 'Вы успешно вошли в систему!');
-            })
-            .catch(err => showToast('error', 'Ошибка', `Не удалось войти, ошибка: ${err}`));
-    });
-
-
-    document.getElementById('register-form').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        const full_name = document.getElementById('register-name').value.trim();
-        const email = document.getElementById('register-email').value.trim();
-        const password = document.getElementById('register-password').value;
-        const confirm = document.getElementById('register-confirm').value;
-
-        if (password !== confirm) {
-            showToast('error', 'Ошибка', 'Пароли не совпадают')            
-            return;
-        }
-
         try {
-            const res = await fetch('/api/register', {
+            // ждём, пока сервис поставит куку в браузер
+            await secureFetch('/api/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ full_name, email, password })
+                body: JSON.stringify({ email, password })
             });
 
-            const data = await res.json();
+            // теперь кука уж точно есть — можем получить /api/me
+            await updateUIForAuth();
 
-            if (res.ok) {
-                showToast('success', 'Успешно', 'Вы успешно зарегестрировались в системе!');
-                updateUIForAuth();
-                document.documentElement.classList.remove('modal-open');
-                registerModal.classList.remove('active');
-            } else {
-                showToast('error', 'Ошибка', `Не удалось зарегестрироваться, ошибка: ${data.error || "Ошибка регистрации"}`)
-            }
+            document.documentElement.classList.remove('modal-open');
+            loginModal.classList.remove('active');
+            showToast('success', 'Успешно', 'Вы вошли в систему!');
         } catch (err) {
-            console.error(err);
-            showToast('error', 'Ошибка', `Не удалось зарегестрироваться, ошибка подключения`) 
+            showToast('error', 'Ошибка', `Не удалось войти: ${err.message || err}`);
         }
-    });
+    });    
 });
+
+
+document.getElementById('register-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const full_name = document.getElementById('register-name').value.trim();
+    const email = document.getElementById('register-email').value.trim();
+    const password = document.getElementById('register-password').value;
+    const confirm = document.getElementById('register-confirm').value;
+
+    if (password !== confirm) {
+        showToast('error', 'Ошибка', 'Пароли не совпадают')
+        return;
+    }
+
+    try {
+        const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ full_name, email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            showToast('success', 'Успешно', 'Вы успешно зарегестрировались в системе!');
+            updateUIForAuth();
+            document.documentElement.classList.remove('modal-open');
+            registerModal.classList.remove('active');
+        } else {
+            showToast('error', 'Ошибка', `Не удалось зарегестрироваться, ошибка: ${data.error || "Ошибка регистрации"}`)
+        }
+    } catch (err) {
+        console.error(err);
+        showToast('error', 'Ошибка', `Не удалось зарегестрироваться, ошибка подключения`)
+    }
+});
+
 
 document.getElementById('logout-btn')?.addEventListener('click', async () => {
     try {

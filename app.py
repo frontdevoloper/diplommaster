@@ -1,26 +1,30 @@
-from flask import Flask, render_template, request, jsonify
+import os
+from functools import wraps
+from flask import Flask, render_template, request, jsonify, url_for, redirect
 from models import db, Order, Service, User, service_to_dict
 from extensions import db, bcrypt, jwt
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity,set_access_cookies, unset_jwt_cookies
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity,set_access_cookies, unset_jwt_cookies, verify_jwt_in_request, get_jwt
 from flask import make_response
-import secrets
+
 
 app = Flask(__name__)
+
 
 # === Configuration ===
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = secrets.token_hex(32)  
-app.config['SECRET_KEY'] = 'dev-secret-key'  
+app.config['JWT_SECRET_KEY'] = 'my-very-secret-key-123'
+app.config['SECRET_KEY'] = 'my-very-secret-key-123'
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_ACCESS_COOKIE_NAME']   = 'access_token_cookie'
 app.config['JWT_COOKIE_SECURE'] = False  # True в проде (https)
 app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
-app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.config['JWT_CSRF_IN_COOKIES'] = True
-app.config['JWT_CSRF_METHODS'] = ["POST", "PUT", "PATCH", "DELETE"]
+app.config['JWT_CSRF_METHODS'] = ["PUT", "PATCH", "DELETE"]
 app.config['JWT_ACCESS_CSRF_HEADER_NAME'] = "X-CSRF-TOKEN"
 
+print("JWT_SECRET_KEY:", app.config['JWT_SECRET_KEY'])
 
 db.init_app(app)
 bcrypt.init_app(app)
@@ -30,18 +34,47 @@ jwt.init_app(app)
 with app.app_context():
     db.create_all()    
 
+def admin_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        # проверяем, что пришёл валидный JWT из куки
+        verify_jwt_in_request()
+        claims = get_jwt()
+        if not claims.get('is_admin', False):
+            # не админ — перенаправляем или 403
+            return redirect(url_for('index')), 302
+        return fn(*args, **kwargs)
+    return wrapper
+
 # === Admin Routes ===
 @app.route('/admin')
+@admin_required
 def admin():
     return render_template('admin/index.html')
 
+@app.route("/admin/tab/<tab>")
+@admin_required
+def admin_tab(tab):
+    allowed_tabs = ['dashboard', 'hero', 'services', 'reviews', 'settings']
+    if tab not in allowed_tabs:
+        return "Вкладка не найдена", 404
+    
+    if tab == 'services': 
+        from models import Service
+        services = Service.query.order_by(Service.order).all()
+        return render_template('admin/tabs/services.html', services=services)
+    
+    return render_template(f"admin/tabs/{tab}.html")
+
 @app.route('/admin/services')
+@admin_required
 def admin_services():
     services = Service.query.all()
     return render_template('admin/services.html', services=services)
 
 # === API: Create service ===
 @app.route('/admin/api/services/create', methods=['POST'])
+@admin_required
 def api_create_service():
     data = request.json
     service = Service(
@@ -61,6 +94,7 @@ def api_create_service():
 
 # === API: Update service ===
 @app.route('/admin/api/services/<int:id>', methods=['PUT'])
+@admin_required
 def api_update_service(id):
     service = Service.query.get_or_404(id)
     data = request.json
@@ -80,6 +114,7 @@ def api_update_service(id):
 
 # === API: Delete service ===
 @app.route('/admin/api/services/<int:id>', methods=['DELETE'])
+@admin_required
 def api_delete_service(id):
     service = Service.query.get_or_404(id)
     db.session.delete(service)
@@ -88,6 +123,7 @@ def api_delete_service(id):
 
 # === API: Get one service ===
 @app.route('/admin/api/services/<int:id>')
+@admin_required
 def api_get_service(id):
     service = Service.query.get_or_404(id)
     return jsonify(service_to_dict(service))
@@ -119,14 +155,14 @@ def register():
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.json
-    email = data.get('email')
-    password = data.get('password')
+    user = User.query.filter_by(email=data['email']).first()
 
-    user = User.query.filter_by(email=email).first()
-    if not user or not user.check_password(password):
+    if not user or not user.check_password(data['password']):
         return jsonify({'error': 'Неверные данные'}), 401
 
-    token = create_access_token(identity=str(user.id))
+    additional_claims = {"is_admin": user.is_admin}
+    token = create_access_token(identity=str(user.id), additional_claims=additional_claims)
+
     response = make_response(jsonify({'user': user.to_dict()}))
     set_access_cookies(response, token)
     return response
