@@ -1,0 +1,148 @@
+<div class="admin-section">
+    <div class="section-header">
+        <h3 class="section-title">Карточки услуг</h3>
+        <div class="section-actions">
+            <button class="btn btn-outline">
+                <i class="fas fa-sort"></i> Изменить порядок
+            </button>
+        </div>
+    </div>
+    <div class="section-body">
+        <div class="tabs">
+            <div class="tab active" data-service-tab="diploma">Дипломные работы</div>
+            <div class="tab" data-service-tab="course">Курсовые работы</div>
+            <div class="tab" data-service-tab="other">Другие услуги</div>
+        </div>
+
+        <div class="card-editor">
+
+            {% for s in services %}
+                {% include 'admin/components/services/card_item.html'%}
+            {% endfor %}
+
+            <!-- Add New Card -->
+            <div class="card-item"
+                style="background-color: var(--gray-50); border: 2px dashed var(--gray-300); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition);">
+                <div
+                    style="width: 48px; height: 48px; background-color: var(--gray-200); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; color: var(--gray-500); margin-bottom: 16px;">
+                    <i class="fas fa-plus" style="font-size: 20px;"></i>
+                </div>
+                <h4 style="color: var(--gray-600); font-weight: 500;">Добавить новую услугу</h4>
+                <p style="font-size: 13px; color: var(--gray-500); margin-top: 4px; text-align: center;">
+                    Нажмите, чтобы создать новую карточку услуги</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="service-modal">
+    <div class="modal-form">
+        <div class="modal-header">
+            <h3 class="modal-title">Добавить новую услугу</h3>
+            <button class="modal-close" id="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="service-form" method="post">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label">Название услуги*</label>
+                            <input name="title" type="text" class="form-control"
+                                placeholder="Например: Дипломная работа" required>
+                            <div class="error-message">Пожалуйста, укажите название услуги</div>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label">Категория*</label>
+                            <select name="category" class="form-control" required>
+                                <option value="">Выберите категорию</option>
+                                <option value="writing">Написание работ</option>
+                                <option value="it">IT услуги</option>
+                                <option value="consulting">Консультации</option>
+                            </select>
+                            <div class="error-message">Пожалуйста, укажите категорию</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label">Цена*</label>
+                            <input name="price" type="text" class="form-control" placeholder="Например: от 8 000 ₽"
+                                required>
+                            <div class="error-message">Пожалуйста, укажите цену</div>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label">Срок выполнения*</label>
+                            <input name="duration" type="text" class="form-control" placeholder="Например: от 14 дней"
+                                required>
+                            <div class="error-message">Пожалуйста, укажите срок выполнения</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Иконка (Font Awesome)</label>
+                    <input name="icon" type="text" class="form-control" placeholder="Например: fa-graduation-cap">
+                    <small>Список доступных иконок: <a href="https://fontawesome.com/icons"
+                            target="_blank">fontawesome.com</a></small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Цвет иконки</label>
+                    <input type="color" class="form-control" name="color" value="#6366f1" style="height: 40px;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Описание услуги*</label>
+                    <textarea name="description" class="form-control" rows="4" placeholder="Подробное описание услуги"
+                        required></textarea>
+                    <div class="error-message">Пожалуйста, добавьте описание услуги</div>
+                </div>
+
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label">Прогресс (0-100)</label>
+                        <input type="number" class="form-control" name="progress" value="{{ progress or 0 }}" min="0"
+                            max="100">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Преимущества*</label>
+                    <textarea name="advantages" class="form-control" rows="4" placeholder="Преимущества через ;"
+                        required></textarea>
+                    <div class="error-message">Пожалуйста, укажите преимущества</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Дополнительные параметры</label>
+                    <div class="form-group">
+                        <label class="form-label">Текст кнопки</label>
+                        <input type="text" class="form-control" name="button_text" value="Подробнее">
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <input name="status" type="checkbox" style="margin-right: 8px;" checked> Активна
+                        </label>
+                        <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <input type="checkbox" style="margin-right: 8px;" checked> Показывать на главной
+                        </label>
+                        <label style="display: flex; align-items: center;">
+                            <input type="checkbox" style="margin-right: 8px;"> Возможен срочный заказ
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancel-btn">Отменить</button>
+            <button class="btn btn-primary" id="save-service-btn">Сохранить услугу</button>
+        </div>
+    </div>
+</div>

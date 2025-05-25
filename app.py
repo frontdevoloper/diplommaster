@@ -5,7 +5,7 @@ from models import db, Order, Service, User, service_to_dict
 from extensions import db, bcrypt, jwt
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity,set_access_cookies, unset_jwt_cookies, verify_jwt_in_request, get_jwt
 from flask import make_response
-
+from datetime import timedelta
 
 app = Flask(__name__)
 
@@ -13,8 +13,8 @@ app = Flask(__name__)
 # === Configuration ===
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['JWT_SECRET_KEY'] = 'my-very-secret-key-123'
-app.config['SECRET_KEY'] = 'my-very-secret-key-123'
+app.config['JWT_SECRET_KEY'] = 'dev-jwt-secret-you-can-change-later'
+app.config['SECRET_KEY']     = 'dev-flask-secret-you-can-change-later'
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_ACCESS_COOKIE_NAME']   = 'access_token_cookie'
 app.config['JWT_COOKIE_SECURE'] = False  # True в проде (https)
@@ -24,7 +24,7 @@ app.config['JWT_CSRF_IN_COOKIES'] = True
 app.config['JWT_CSRF_METHODS'] = ["PUT", "PATCH", "DELETE"]
 app.config['JWT_ACCESS_CSRF_HEADER_NAME'] = "X-CSRF-TOKEN"
 
-print("JWT_SECRET_KEY:", app.config['JWT_SECRET_KEY'])
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=1) 
 
 db.init_app(app)
 bcrypt.init_app(app)
@@ -32,7 +32,25 @@ jwt.init_app(app)
 
 # === Create database and seed example data ===
 with app.app_context():
-    db.create_all()    
+    db.create_all()  
+
+    # === Автоматическое создание админа ===
+    admin_email = "admin@admin.com"
+    admin_password = "admin123"
+
+    existing_admin = User.query.filter_by(email=admin_email).first()
+    if not existing_admin:
+        admin = User(
+            email=admin_email,
+            full_name="Администратор",
+            is_admin=True
+        )
+        admin.set_password(admin_password)
+        db.session.add(admin)
+        db.session.commit()
+        print(f"[✅] Админ создан: {admin_email} / {admin_password}")
+    else:
+        print("[ℹ️] Админ уже существует")  
 
 def admin_required(fn):
     @wraps(fn)
@@ -86,7 +104,10 @@ def api_create_service():
         category=data.get('category', ''),
         icon=data.get('icon', ''),
         status=data.get('status', 'active'),
-        order=int(data.get('order', 1))
+        order=int(data.get('order', 1)), 
+        color=data.get('color'),
+        button_text=data.get('button_text'),
+        progress=data.get('progress')
     )
     db.session.add(service)
     db.session.commit()
@@ -108,9 +129,26 @@ def api_update_service(id):
     service.icon = data.get('icon', '')
     service.status = data.get('status', 'active')
     service.order = int(data.get('order', 1))
+    service.color=data.get('color'),
+    service.button_text=data.get('button_text'),
+    service.progress=data.get('progress')
 
     db.session.commit()
     return jsonify(service_to_dict(service))
+
+@app.route('/admin/api/services/<int:id>', methods=['PATCH'])
+@admin_required
+def update_service_field(id):
+    service = Service.query.get_or_404(id)
+    data = request.json
+
+    # обновляем только переданные поля
+    for field, value in data.items():
+        if hasattr(service, field):
+            setattr(service, field, value)
+
+    db.session.commit()
+    return jsonify({'success': True, 'message': 'Услуга обновлена'})
 
 # === API: Delete service ===
 @app.route('/admin/api/services/<int:id>', methods=['DELETE'])
@@ -159,12 +197,19 @@ def login():
 
     if not user or not user.check_password(data['password']):
         return jsonify({'error': 'Неверные данные'}), 401
+    
+    remember = data.get('remember', False)
+
+    expires = timedelta(days=30) if remember else False  # False = сеансовая
 
     additional_claims = {"is_admin": user.is_admin}
-    token = create_access_token(identity=str(user.id), additional_claims=additional_claims)
+    
+    token = create_access_token(identity=str(user.id), additional_claims=additional_claims, expires_delta=expires)
 
-    response = make_response(jsonify({'user': user.to_dict()}))
+    response = make_response(jsonify({'user': user.to_dict()}))    
+
     set_access_cookies(response, token)
+
     return response
 
 @app.route('/api/logout', methods=['POST'])

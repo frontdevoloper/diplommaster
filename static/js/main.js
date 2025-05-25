@@ -186,12 +186,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const email = document.getElementById('login-email').value.trim();
         const password = document.getElementById('login-password').value;
+        const remember = document.getElementById('remember-me').checked;
 
         try {
             // ждём, пока сервис поставит куку в браузер
             await secureFetch('/api/login', {
                 method: 'POST',
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email, password, remember })
             });
 
             // теперь кука уж точно есть — можем получить /api/me
@@ -203,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (err) {
             showToast('error', 'Ошибка', `Не удалось войти: ${err.message || err}`);
         }
-    });    
+    });
 });
 
 
@@ -220,25 +221,17 @@ document.getElementById('register-form').addEventListener('submit', async functi
     }
 
     try {
-        const res = await fetch('/api/register', {
+        await secureFetch('/api/register', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ full_name, email, password })
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-            showToast('success', 'Успешно', 'Вы успешно зарегестрировались в системе!');
-            updateUIForAuth();
-            document.documentElement.classList.remove('modal-open');
-            registerModal.classList.remove('active');
-        } else {
-            showToast('error', 'Ошибка', `Не удалось зарегестрироваться, ошибка: ${data.error || "Ошибка регистрации"}`)
-        }
+        });             
+        document.documentElement.classList.remove('modal-open');       
+        document.getElementById('register-modal').classList.remove('active');
+        showToast('success', 'Успешно', 'Вы успешно зарегистрировались!');  
+        await updateUIForAuth();
     } catch (err) {
-        console.error(err);
-        showToast('error', 'Ошибка', `Не удалось зарегестрироваться, ошибка подключения`)
+        console.log(err)
+        showToast('error', 'Ошибка', `Не удалось зарегистрироваться: ${err.message || err}`);
     }
 });
 
@@ -249,7 +242,7 @@ document.getElementById('logout-btn')?.addEventListener('click', async () => {
             method: 'POST'
         });
 
-        updateUIForAuth();
+        await updateUIForAuth();
 
         showToast('success', 'Готово', 'Вы успешно вышли из системы!')
     } catch (err) {
@@ -257,9 +250,3 @@ document.getElementById('logout-btn')?.addEventListener('click', async () => {
     }
 });
 
-function getCookie(name) {
-    const matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([$?*|{}()\]\\[\]\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}

@@ -1,5 +1,5 @@
 Flask==2.3.3
 Flask-SQLAlchemy==3.1.1
 alembic==1.13.1
-flask-jwt-extended
-flask-bcrypt
+Flask-JWT-Extended>=4.4.4
+Flask-Bcrypt>=1.0.1

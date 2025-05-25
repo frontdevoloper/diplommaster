@@ -1,0 +1,89 @@
+<div class="card-item" data-id="{{ s.id }}">
+    <div class="card-header">
+        <div class="card-icon-preview" style="background-color: {{ s.color or '#6366f1' }}">
+            <i class="fas fa-{{ s.icon or 'graduation-cap' }}"></i>
+        </div>
+        <h4 class="card-title">{{ s.title or 'Название услуги' }}</h4>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Иконка</label>
+        <select class="form-control" name="icon">
+            {% for i in ['graduation-cap', 'book', 'file-alt', 'laptop-code'] %}
+            <option value="{{ i }}" {% if s.icon==i %}selected{% endif %}>{{ i }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Цвет иконки</label>
+        <input type="color" class="form-control" name="color" value="{{ s.color or '#6366f1' }}" style="height: 40px;">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Заголовок</label>
+        <input type="text" class="form-control" name="title" value="{{ s.title or '' }}">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Описание</label>
+        <textarea class="form-control" name="description">{{ s.description or '' }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Категория</label>
+        <select name="category" class="form-control">            
+            <option value="">Выберите категорию</option>
+            <option value="writing">Написание работ</option>
+            <option value="it">IT услуги</option>
+            <option value="consulting">Консультации</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Преимущества</label>
+        <textarea name="advantages" class="form-control" rows="4" placeholder="Преимущества через ;">
+            {{ s.advantages }}
+        </textarea>
+    </div>
+
+    <div class="form-row">
+        <div class="form-col">
+            <div class="form-group">
+                <label class="form-label">Прогресс (0-100)</label>
+                <input type="number" class="form-control" name="progress" value="{{ s.progress or 0 }}" min="0"
+                    max="100">
+            </div>
+        </div>
+        <div class="form-col">
+            <div class="form-group">
+                <label class="form-label">Срок выполнения*</label>
+                <input name="duration" type="text" class="form-control" placeholder="Например: от 14 дней" value="{{ s.duration or 0 }}" required>               
+            </div>
+        </div>
+        <div class="form-col">
+            <div class="form-group">
+                <label class="form-label">Минимальная цена</label>
+                <input type="text" class="form-control" name="price" value="{{ s.price or '' }}">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Текст кнопки</label>
+        <input type="text" class="form-control" name="button_text" value="{{ s.button_text or 'Подробнее' }}">
+    </div>
+
+    <div class="form-group">
+        <label class="form-check">
+            <input type="checkbox" class="form-check-input" name="active" {% if s.status %}checked{% endif %}>
+            <label class="form-check-label">Активная карточка</label>
+        </label>
+    </div>
+
+    <div class="form-actions" style="padding: 0; border: none; margin-top: 16px;">
+        <button type="button" class="btn btn-outline btn-block delete-service-btn" data-id="{{ s.id }}">
+            <i class="fas fa-trash"></i> Удалить услугу
+        </button>
+    </div>
+</div>

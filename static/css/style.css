@@ -446,6 +446,17 @@ nav {
     visibility: visible;
 }
 
+.modal-form {
+    background-color: white;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s;
+}
+
 .modal-container {
     background-color: var(--white);
     border-radius: 16px;

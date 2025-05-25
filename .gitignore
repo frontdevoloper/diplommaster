@@ -1,31 +1,43 @@
 # Python
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
 *.pyd
-*.pdb
-*.egg
-*.egg-info/
-*.log
-*.sqlite3
-instance/
+*.env
 .env
-.env.*
+*.sqlite3
+db.sqlite3
 
-# Virtual env
+# Flask
+instance/
+*.log
+
+# macOS / Linux / Windows
+.DS_Store
+Thumbs.db
+
+# Virtual Environments
 venv/
+.venv/
 ENV/
-env/
 
-# VSCode / PyCharm
+# VSCode / JetBrains
 .vscode/
 .idea/
 
-# Flask
-*.db
-*.sqlite3
-*.bak
+# Node/npm (если используешь для фронта)
+node_modules/
+dist/
+build/
 
-# OS
-.DS_Store
-Thumbs.db
+# Frontend cache/output
+*.cache
+*.bak
+*.swp
+*.tmp
+
+# Coverage/test reports
+htmlcov/
+.coverage
+.tox/
+.pytest_cache/
