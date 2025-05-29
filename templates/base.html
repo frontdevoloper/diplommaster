@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
-<body>        
-   
+
+<body>
+
     <header>
         <div class="header-container">
             <a href="#" class="logo">
@@ -19,7 +21,7 @@
 
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#" class="nav-link">Главная</a></li>
+                    <li><a href="{{ url_for('index') }}" class="nav-link">Главная</a></li>
 
                     <li class="dropdown">
                         <button class="nav-link dropdown-btn">
@@ -50,7 +52,7 @@
                         <i class="fas fa-user"></i>
                     </button>
                     <div class="user-menu">
-                        <a href="#"><i class="fas fa-user"></i> Профиль</a>
+                        <a href="{{ url_for('account') }}"><i class="fas fa-user"></i> Профиль</a>
                         <a href="#"><i class="fas fa-cog"></i> Настройки</a>
                         <a href="#"><i class="fas fa-file-alt"></i> Мои заказы</a>
                         <a href="{{ url_for('admin') }}"><i class="fas fa-file-alt"></i>Админка</a>
@@ -79,26 +81,28 @@
                 <form id="login-form">
                     <div class="form-group">
                         <label for="login-email" class="form-label">Email</label>
-                        <input type="email" id="login-email" class="form-input" placeholder="Введите ваш email" required>
+                        <input type="email" id="login-email" class="form-input" placeholder="Введите ваш email"
+                            required>
                         <i class="fas fa-envelope form-input-icon"></i>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="login-password" class="form-label">Пароль</label>
-                        <input type="password" id="login-password" class="form-input" placeholder="Введите ваш пароль" required>
+                        <input type="password" id="login-password" class="form-input" placeholder="Введите ваш пароль"
+                            required>
                         <i class="fas fa-lock form-input-icon"></i>
                     </div>
-                    
+
                     <div class="checkbox-container">
                         <input type="checkbox" id="remember-me">
                         <span class="checkmark"></span>
                         <label for="remember-me">Запомнить меня</label>
                     </div>
-                    
+
                     <button type="submit" class="form-submit">Войти</button>
-                    
+
                     <div class="form-divider">или</div>
-                    
+
                     <div class="social-login">
                         <button type="button" class="social-btn google">
                             <i class="fab fa-google"></i>
@@ -110,7 +114,7 @@
                             <i class="fab fa-twitter"></i>
                         </button>
                     </div>
-                    
+
                     <div class="form-footer">
                         Нет аккаунта? <a href="#" id="switch-to-register">Зарегистрироваться</a>
                     </div>
@@ -131,36 +135,40 @@
                 <form id="register-form">
                     <div class="form-group">
                         <label for="register-name" class="form-label">Имя</label>
-                        <input type="text" id="register-name" class="form-input" placeholder="Введите ваше имя" required>
+                        <input type="text" id="register-name" class="form-input" placeholder="Введите ваше имя"
+                            required>
                         <i class="fas fa-user form-input-icon"></i>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="register-email" class="form-label">Email</label>
-                        <input type="email" id="register-email" class="form-input" placeholder="Введите ваш email" required>
+                        <input type="email" id="register-email" class="form-input" placeholder="Введите ваш email"
+                            required>
                         <i class="fas fa-envelope form-input-icon"></i>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="register-password" class="form-label">Пароль</label>
-                        <input type="password" id="register-password" class="form-input" placeholder="Создайте пароль" required>
+                        <input type="password" id="register-password" class="form-input" placeholder="Создайте пароль"
+                            required>
                         <i class="fas fa-lock form-input-icon"></i>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="register-confirm" class="form-label">Подтверждение пароля</label>
-                        <input type="password" id="register-confirm" class="form-input" placeholder="Повторите пароль" required>
+                        <input type="password" id="register-confirm" class="form-input" placeholder="Повторите пароль"
+                            required>
                         <i class="fas fa-lock form-input-icon"></i>
                     </div>
-                    
+
                     <div class="checkbox-container">
                         <input type="checkbox" id="agree-terms" required>
                         <span class="checkmark"></span>
                         <label for="agree-terms">Я согласен с <a href="#">условиями использования</a></label>
                     </div>
-                    
+
                     <button type="submit" class="form-submit">Зарегистрироваться</button>
-                    
+
                     <div class="form-footer">
                         Уже есть аккаунт? <a href="#" id="switch-to-login">Войти</a>
                     </div>
@@ -171,15 +179,93 @@
 
     <main>
         {% block content %}{% endblock %}
-    </main>    
+    </main>
+
+    <!-- Футер -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">AIS</div>
+                        <span class="logo-text">Academic & IT Solutions</span>
+                    </a>
+                    <p>
+                        Профессиональная помощь студентам и бизнесу с 2010 года. Качество, сроки и конфиденциальность
+                        гарантированы.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-vk"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Услуги</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Дипломные работы</a></li>
+                        <li><a href="#">Курсовые работы</a></li>
+                        <li><a href="#">Рефераты</a></li>
+                        <li><a href="#">Контрольные работы</a></li>
+                        <li><a href="#">Отчеты по практике</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>IT решения</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Разработка сайтов</a></li>
+                        <li><a href="#">Интернет-магазины</a></li>
+                        <li><a href="#">Лендинги</a></li>
+                        <li><a href="#">1С программирование</a></li>
+                        <li><a href="#">Техническая поддержка</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Контакты</h3>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>г. Москва, ул. Примерная, д. 123, оф. 456</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone-alt"></i>
+                            <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@example.com">info@example.com</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Пн-Пт: 9:00 - 21:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-text">© 2023 Academic & IT Solutions. Все права защищены.</p>
+                <div class="footer-links-bottom">
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Договор оферты</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Кнопка "Наверх" -->
     <a href="#" class="back-to-top" id="back-to-top">
         <i class="fas fa-arrow-up"></i>
     </a>
 
+
+    <script src="{{ url_for('static', filename='js/tabs.js') }}"></script>
     <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
     <script src="/static/js/auth.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
+
 </html>

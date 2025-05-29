@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="main-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <img src="{{ user.avatar or 'https://randomuser.me/api/portraits/lego/1.jpg' }}" alt="Аватар пользователя"
+            class="profile-avatar">
+
+        <div class="profile-info">
+            <h1 class="profile-name">{{user.full_name}}</h1>
+            <div class="profile-email">
+                <i class="fas fa-envelope"></i> {{ user.email }}
+            </div>
+
+            <p class="profile-bio">
+                Студентка МГУ, факультет экономики. Интересуюсь веб-разработкой и анализом данных.
+                Люблю путешествовать и изучать новые технологии.
+            </p>
+
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-text">
+                        <span class="stat-value">24</span>
+                        <span class="stat-label">Заказов</span>
+                    </div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-text">
+                        <span class="stat-value">4.9</span>
+                        <span class="stat-label">Рейтинг</span>
+                    </div>
+                </div>
+
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-text">
+                        <span class="stat-value">2 года</span>
+                        <span class="stat-label">С нами</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <button class="profile-btn btn btn-primary">
+                    <i class="fas fa-edit"></i> Редактировать
+                </button>
+                <button class="btn btn-outline">
+                    <i class="fas fa-share-alt"></i> Поделиться
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Content -->
+    <div class="profile-content">
+        {% include 'components/profile_tabs.html' %}
+        <!-- Sidebar -->
+        <!-- <div class="profile-sidebar">
+            <h3 class="sidebar-title">Меню профиля</h3>
+            {% include 'components/_tabs.html' with context %}
+            <ul class="sidebar-menu">
+                <li><a href="#" class="active"><i class="fas fa-user"></i> Обзор профиля</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Настройки</a></li>
+                <li><a href="#"><i class="fas fa-file-alt"></i> Мои заказы</a></li>
+                <li><a href="#"><i class="fas fa-comments"></i> Отзывы</a></li>
+                <li><a href="#"><i class="fas fa-credit-card"></i> Платежи</a></li>
+                <li><a href="#"><i class="fas fa-bell"></i> Уведомления</a></li>
+            </ul>
+
+            <div class="verification-badge">
+                <i class="fas fa-check-circle"></i>
+                <span>Профиль подтвержден</span>
+            </div>
+        </div> -->
+
+        <!-- Main Content -->
+        <div class="profile-main">
+            <div class="profile-tab-section" id="tab-overview">
+                <div class="profile-section-title">
+                    <span>Личная информация</span>
+                    <a href="#"><i class="fas fa-edit"></i> Редактировать</a>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Полное имя</h4>
+                            <p>{{ user.feull_name }}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Телефон</h4>
+                            <p>{{user.phone}}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-birthday-cake"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Дата рождения</h4>
+                            <p>15 марта 1995</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Город</h4>
+                            <p>Москва</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Учебное заведение</h4>
+                            <p>МГУ им. М.В. Ломоносова</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>Факультет</h4>
+                            <p>Экономический</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Section -->
+                <div class="profile-section-title">
+                    <span>Последние заказы</span>
+                    <a href="#">Все заказы <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>№ заказа</th>
+                            <th>Тема</th>
+                            <th>Тип работы</th>
+                            <th>Срок</th>
+                            <th>Статус</th>
+                            <th>Стоимость</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="#" class="order-id">#AIS-2023-156</a></td>
+                            <td>Анализ рынка IT услуг в России</td>
+                            <td>Дипломная работа</td>
+                            <td>15.06.2023</td>
+                            <td><span class="order-status status-completed">Завершено</span></td>
+                            <td>24 500 ₽</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" class="order-id">#AIS-2023-132</a></td>
+                            <td>Разработка интернет-магазина</td>
+                            <td>Курсовая работа</td>
+                            <td>05.05.2023</td>
+                            <td><span class="order-status status-completed">Завершено</span></td>
+                            <td>12 000 ₽</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" class="order-id">#AIS-2023-108</a></td>
+                            <td>Экономический анализ предприятия</td>
+                            <td>Отчет по практике</td>
+                            <td>25.04.2023</td>
+                            <td><span class="order-status status-completed">Завершено</span></td>
+                            <td>8 500 ₽</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" class="order-id">#AIS-2023-087</a></td>
+                            <td>Маркетинговое исследование</td>
+                            <td>Реферат</td>
+                            <td>10.04.2023</td>
+                            <td><span class="order-status status-in-progress">В работе</span></td>
+                            <td>5 200 ₽</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Activity Section -->
+                <div class="profie-section-title section-title">
+                    <span>Последняя активность</span>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Сегодня, 14:30</div>
+                            <div class="timeline-text">Вы загрузили дополнительные материалы к заказу #AIS-2023-087
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">Вчера, 18:45</div>
+                            <div class="timeline-text">Вы оставили отзыв к заказу #AIS-2023-132</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-file-download"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">15 мая, 10:20</div>
+                            <div class="timeline-text">Вы скачали готовую работу по заказу #AIS-2023-132</div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">10 мая, 16:10</div>
+                            <div class="timeline-text">Вы оплатили заказ #AIS-2023-156</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-tab-section" id="tab-settings" style="display:none;">
+                <h2>Настройки</h2>
+                <p>Скоро здесь появится возможность редактировать настройки профиля.</p>
+            </div>
+            <div class="profile-tab-section" id="tab-orders" style="display:none;">
+                <h2>Мои заказы</h2>
+                <!-- Таблица заказов -->
+            </div>
+
+            <div class="profile-tab-section" id="tab-reviews" style="display:none;">
+                <h2>Отзывы</h2>
+            </div>
+
+            <div class="profile-tab-section" id="tab-payments" style="display:none;">
+                <h2>Платежи</h2>
+            </div>
+
+            <div class="profile-tab-section" id="tab-notifications" style="display:none;">
+                <h2>Уведомления</h2>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

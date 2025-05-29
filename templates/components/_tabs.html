@@ -1,0 +1,7 @@
+<ul class="sidebar-menu">
+    {% for item in tabs %}
+    <li><a href="{{ item.url }}" class="{{ 'active' if item.active else '' }}">
+            <i class="fas {{ item.icon }}"></i> {{ item.title }}
+        </a></li>
+    {% endfor %}
+</ul>

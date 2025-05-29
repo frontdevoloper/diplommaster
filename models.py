@@ -11,35 +11,35 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     full_name = db.Column(db.String(150), nullable=False)
     avatar = db.Column(db.String(255), default='default.png')
-
     is_admin = db.Column(db.Boolean, default=False)
-
-    settings = db.Column(db.JSON, default={})  # JSON поле для пользовательских настроек
-
+    settings = db.Column(db.JSON, default={})
+    role = db.Column(db.String(20), default='customer')
     # связи
     orders = relationship('Order', backref='user', lazy=True)
     reviews = relationship('Review', backref='user', lazy=True)
     messages = relationship('ChatMessage', backref='user', lazy=True)
-
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def check_password(self, password_plain):
         return bcrypt.check_password_hash(self.password_hash, password_plain)
 
     def set_password(self, password_plain):
-        self.password_hash = bcrypt.generate_password_hash(password_plain).decode('utf-8')
+        self.password_hash = bcrypt.generate_password_hash(
+            password_plain).decode('utf-8')
 
     def to_dict(self):
         return {
             'id': self.id,
             'email': self.email,
             'full_name': self.full_name,
+            'phone': self.phone,
             'avatar': self.avatar,
-            'is_admin': self.is_admin
+            'role': self.role
         }
 
     def __repr__(self):
         return f"<User {self.email}>"
+
 
 class ChatMessage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -50,14 +50,17 @@ class ChatMessage(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     is_from_admin = db.Column(db.Boolean, default=False)
 
+
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    service_id = db.Column(db.Integer, db.ForeignKey('service.id'), nullable=False)
+    service_id = db.Column(db.Integer, db.ForeignKey(
+        'service.id'), nullable=False)
 
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -80,10 +83,10 @@ class Service(db.Model):
     duration = db.Column(db.String(100))
     price = db.Column(db.Float)
     advantages = db.Column(db.Text)
-    category = db.Column(db.String(100))    
-    icon = db.Column(db.String(100)) 
-    button_text = db.Column(db.String(100))         
-    status = db.Column(db.String(20), default='active')       
+    category = db.Column(db.String(100))
+    icon = db.Column(db.String(100))
+    button_text = db.Column(db.String(100))
+    status = db.Column(db.String(20), default='active')
     order = db.Column(db.Integer, default=1)
 
 
