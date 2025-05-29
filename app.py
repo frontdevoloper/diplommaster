@@ -244,6 +244,11 @@ def index():
     return render_template('index.html', services=services)
 
 
+@app.route('/new')
+def new_index():
+    return render_template('new_index.html')
+
+
 @app.route('/api/me')
 @jwt_required()
 def profile():

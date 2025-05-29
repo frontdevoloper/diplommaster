@@ -1,18 +1,49 @@
-// Показать/скрыть кнопку "Наверх"
-window.addEventListener('scroll', function () {
-    var backToTop = document.getElementById('back-to-top');
-    if (window.pageYOffset > 300) {
-        backToTop.classList.add('visible');
+// Кастомный курсор
+const cursorDot = document.querySelector('.cursor-dot');
+const cursorOutline = document.querySelector('.cursor-outline');
+
+window.addEventListener('mousemove', (e) => {
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
+
+    cursorOutline.animate({
+        left: `${posX}px`,
+        top: `${posY}px`
+    }, { duration: 300, fill: 'forwards' });
+});
+
+// Эффект при наведении на интерактивные элементы
+const interactiveElements = document.querySelectorAll('a, button, .feature-card, .stat-item, .nav-link, .service-card, .faq-question');
+
+interactiveElements.forEach(element => {
+    element.addEventListener('mouseenter', () => {
+        cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+        cursorOutline.style.borderColor = 'var(--primary)';
+    });
+
+    element.addEventListener('mouseleave', () => {
+        cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+        cursorOutline.style.borderColor = 'var(--primary)';
+    });
+});
+
+// Фиксированный хедер при скролле
+const header = document.querySelector('.header');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
     } else {
-        backToTop.classList.remove('visible');
+        header.classList.remove('scrolled');
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-    updateUIForAuth();
-});
-
-// Плавная прокрутка для якорных ссылок
+// Плавный скролл для якорных ссылок
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -23,99 +54,76 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
             window.scrollTo({
-                top: targetElement.offsetTop - 80,
+                top: targetElement.offsetTop - 100,
                 behavior: 'smooth'
             });
         }
     });
 });
 
-// Анимация при скролле
-function animateOnScroll() {
-    const elements = document.querySelectorAll('.service-card, .feature-item, .testimonial-card');
-    const windowHeight = window.innerHeight;
-
-    elements.forEach(element => {
-        const elementPosition = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-
-        if (elementPosition < windowHeight - elementVisible) {
-            element.classList.add('animate__animated', 'animate__fadeInUp');
-        }
-    });
-}
-
-window.addEventListener('scroll', animateOnScroll);
-window.addEventListener('load', animateOnScroll);
-
 // Мобильное меню
-const mobileMenuButton = document.querySelector('.mobile-menu-btn');
-const mobileMenu = document.createElement('div');
-mobileMenu.className = 'mobile-menu';
-mobileMenu.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--white);
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transform: translateY(-100%);
-            transition: transform 0.3s ease;
-        `;
+const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+const nav = document.querySelector('.nav');
 
-mobileMenu.innerHTML = `
-            <button class="close-menu" style="
-                position: absolute;
-                top: 25px;
-                right: 25px;
-                background: none;
-                border: none;
-                font-size: 24px;
-                color: var(--gray-600);
-                cursor: pointer;
-            ">
-                <i class="fas fa-times"></i>
-            </button>
-            <nav style="display: flex; flex-direction: column; align-items: center; gap: 25px;">
-                <a href="#" style="font-size: 22px; color: var(--gray-800); text-decoration: none; font-weight: 500;">Главная</a>
-                <a href="#" style="font-size: 22px; color: var(--gray-800); text-decoration: none; font-weight: 500;">Услуги</a>
-                <a href="#" style="font-size: 22px; color: var(--gray-800); text-decoration: none; font-weight: 500;">Цены</a>
-                <a href="#" style="font-size: 22px; color: var(--gray-800); text-decoration: none; font-weight: 500;">Отзывы</a>
-                <a href="#" style="font-size: 22px; color: var(--gray-800); text-decoration: none; font-weight: 500;">Контакты</a>
-                <div style="display: flex; gap: 15px; margin-top: 30px;">
-                    <a href="#" style="
-                        padding: 10px 25px;
-                        border: 1px solid var(--primary);
-                        border-radius: 50px;
-                        color: var(--primary);
-                        text-decoration: none;
-                        font-weight: 500;
-                    ">Вход</a>
-                    <a href="#" style="
-                        padding: 10px 25px;
-                        background: var(--primary);
-                        border-radius: 50px;
-                        color: var(--white);
-                        text-decoration: none;
-                        font-weight: 500;
-                    ">Регистрация</a>
-                </div>
-            </nav>
-        `;
-
-document.body.appendChild(mobileMenu);
-
-mobileMenuButton.addEventListener('click', function () {
-    mobileMenu.style.transform = 'translateY(0)';
+mobileMenuBtn.addEventListener('click', () => {
+    nav.classList.toggle('active');
+    mobileMenuBtn.innerHTML = nav.classList.contains('active') ?
+        '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
 });
 
-mobileMenu.querySelector('.close-menu').addEventListener('click', function () {
-    mobileMenu.style.transform = 'translateY(-100%)';
+// Анимация при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    const elements = document.querySelectorAll('.feature-card, .stat-item, .testimonial-card');
+
+    elements.forEach((element, index) => {
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, 100 * index);
+    });
+});
+
+// Инициализация слайдера отзывов
+$(document).ready(function () {
+    $('.testimonials-slider').slick({
+        dots: true,
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        centerMode: true,
+        variableWidth: true,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    centerMode: false,
+                    variableWidth: false
+                }
+            }
+        ]
+    });
+});
+
+// Управление выпадающим меню профиля
+const userAvatar = document.getElementById('userAvatar');
+const userProfile = document.querySelector('.user-profile');
+
+userAvatar.addEventListener('click', (e) => {
+    e.stopPropagation();
+    userProfile.classList.toggle('active');
+});
+
+// Закрытие меню при клике вне его
+document.addEventListener('click', (e) => {
+    if (!userProfile.contains(e.target)) {
+        userProfile.classList.remove('active');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateUIForAuth();
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -224,10 +232,10 @@ document.getElementById('register-form').addEventListener('submit', async functi
         await secureFetch('/api/register', {
             method: 'POST',
             body: JSON.stringify({ full_name, email, password })
-        });             
-        document.documentElement.classList.remove('modal-open');       
+        });
+        document.documentElement.classList.remove('modal-open');
         document.getElementById('register-modal').classList.remove('active');
-        showToast('success', 'Успешно', 'Вы успешно зарегистрировались!');  
+        showToast('success', 'Успешно', 'Вы успешно зарегистрировались!');
         await updateUIForAuth();
     } catch (err) {
         console.log(err)
@@ -248,5 +256,55 @@ document.getElementById('logout-btn')?.addEventListener('click', async () => {
     } catch (err) {
         alert('Ошибка выхода: ' + err.message);
     }
+});
+
+// Анимация при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    const elements = document.querySelectorAll('.profile-sidebar, .profile-section', '.service-card', '.process-step', '.guarantee-card');
+
+    elements.forEach((element, index) => {
+        setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, 150 * index);
+    });
+});
+
+// Параллакс эффект для фона
+const parallaxElements = document.querySelectorAll('.hero, .services, .process, .guarantees, .faq');
+
+window.addEventListener('scroll', () => {
+    const scrollPosition = window.pageYOffset;
+
+    parallaxElements.forEach(element => {
+        const elementPosition = element.offsetTop;
+        const elementHeight = element.offsetHeight;
+
+        if (scrollPosition > elementPosition - window.innerHeight &&
+            scrollPosition < elementPosition + elementHeight) {
+            const speed = element.dataset.speed || 0.2;
+            const yPos = -(scrollPosition - elementPosition) * speed;
+
+            if (element.querySelector('.parallax-bg')) {
+                element.querySelector('.parallax-bg').style.transform = `translateY(${yPos}px)`;
+            }
+        }
+    });
+});
+
+// Аккордеон FAQ
+document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const icon = question.querySelector('i');
+
+        question.classList.toggle('active');
+
+        if (question.classList.contains('active')) {
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+        } else {
+            answer.style.maxHeight = '0';
+        }
+    });
 });
 

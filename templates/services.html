@@ -1,0 +1,492 @@
+{% extends 'base.html' %}
+{% block title %}Услуги{% endblock %}
+{% block content %}
+<!-- Герой секция -->
+<section class="section hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Профессиональные услуги для вашего бизнеса</h1>
+        <p class="hero-subtitle">Полный спектр цифровых решений от ведущих экспертов рынка</p>
+        <div class="hero-buttons">
+            <a href="#services" class="btn btn-primary">
+                Наши услуги <i class="fas fa-arrow-down ml-2"></i>
+            </a>
+            <a href="#process" class="btn btn-outline">
+                Как мы работаем
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Секция услуг -->
+<section id="services" class="section services">
+    <div class="services-container container">
+        <h2 class="section-title">Наши направления</h2>
+        <p class="section-subtitle">Выберите категорию услуг для просмотра полного спектра наших предложений</p>
+
+        <div class="services-grid">
+            <!-- Услуга 1 -->
+            <a href="services/writing.html" class="service-card">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1673&q=80"
+                        alt="Написание работ">
+                    <span class="service-badge badge-popular">Популярно</span>
+                </div>
+                <div class="service-content">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <h3 class="service-title">Написание работ</h3>
+                    </div>
+                    <p class="service-description">Профессиональное написание академических, технических и
+                        бизнес-текстов любой сложности</p>
+                    <div class="service-footer">
+                        <span class="service-price">От 1500₽</span>
+                        <span class="service-link">
+                            Подробнее <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Услуга 2 -->
+            <a href="services/webdev.html" class="service-card">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80"
+                        alt="Разработка сайтов">
+                    <span class="service-badge badge-new">Новинка</span>
+                </div>
+                <div class="service-content">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="service-title">Разработка сайтов</h3>
+                    </div>
+                    <p class="service-description">Создание современных адаптивных сайтов и веб-приложений с
+                        уникальным дизайном</p>
+                    <div class="service-footer">
+                        <span class="service-price">От 25000₽</span>
+                        <span class="service-link">
+                            Подробнее <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Услуга 3 -->
+            <a href="services/design.html" class="service-card">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80"
+                        alt="Дизайн">
+                </div>
+                <div class="service-content">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3 class="service-title">Дизайн</h3>
+                    </div>
+                    <p class="service-description">Разработка фирменного стиля, логотипов, UI/UX дизайна и
+                        полиграфической продукции</p>
+                    <div class="service-footer">
+                        <span class="service-price">От 10000₽</span>
+                        <span class="service-link">
+                            Подробнее <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Услуга 4 -->
+            <a href="services/marketing.html" class="service-card">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                        alt="Маркетинг">
+                </div>
+                <div class="service-content">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="service-title">Маркетинг</h3>
+                    </div>
+                    <p class="service-description">Комплексные маркетинговые решения: SMM, контекстная реклама, SEO
+                        и аналитика</p>
+                    <div class="service-footer">
+                        <span class="service-price">От 20000₽</span>
+                        <span class="service-link">
+                            Подробнее <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Услуга 5 -->
+            <a href="services/content.html" class="service-card">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                        alt="Контент">
+                </div>
+                <div class="service-content">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-photo-film"></i>
+                        </div>
+                        <h3 class="service-title">Контент</h3>
+                    </div>
+                    <p class="service-description">Создание и продвижение контента: статьи, видео, инфографика,
+                        копирайтинг</p>
+                    <div class="service-footer">
+                        <span class="service-price">От 500₽</span>
+                        <span class="service-link">
+                            Подробнее <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Услуга 6 -->
+            <a href="services/consulting.html" class="service-card">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                        alt="Консалтинг">
+                    <span class="service-badge badge-expert">Эксперты</span>
+                </div>
+                <div class="service-content">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="service-title">Консалтинг</h3>
+                    </div>
+                    <p class="service-description">Экспертные консультации по digital-стратегиям, аналитике и
+                        бизнес-процессам</p>
+                    <div class="service-footer">
+                        <span class="service-price">От 5000₽/час</span>
+                        <span class="service-link">
+                            Подробнее <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Секция процесса -->
+<section id="process" class="section process">
+    <div class="process-container container">
+        <h2 class="section-title">Как мы работаем</h2>
+        <p class="section-subtitle">Прозрачный процесс сотрудничества, обеспечивающий качественный результат</p>
+
+        <div class="process-steps">
+            <!-- Шаг 1 -->
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-header">
+                        <i class="fas fa-lightbulb step-icon"></i>
+                        <h3 class="step-title">Обсуждение проекта</h3>
+                    </div>
+                    <p class="step-description">Мы внимательно изучаем ваши потребности, цели и ожидания от проекта.
+                        Проводим анализ конкурентов и рынка.</p>
+                    <div class="step-details">
+                        <h4 class="step-details-title">
+                            <i class="fas fa-search"></i> Что мы делаем:
+                        </h4>
+                        <ul class="step-details-list">
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Бесплатная консультация</span>
+                            </li>
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Анализ технического задания</span>
+                            </li>
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Предложение оптимального решения</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Шаг 2 -->
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-header">
+                        <i class="fas fa-pencil-ruler step-icon"></i>
+                        <h3 class="step-title">Проектирование</h3>
+                    </div>
+                    <p class="step-description">Создаем детальный план работы, проектируем архитектуру решения и
+                        разрабатываем прототипы.</p>
+                    <div class="step-details">
+                        <h4 class="step-details-title">
+                            <i class="fas fa-project-diagram"></i> Результаты:
+                        </h4>
+                        <ul class="step-details-list">
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Техническая документация</span>
+                            </li>
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Прототипы и макеты</span>
+                            </li>
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Детальный план работ</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Шаг 3 -->
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-header">
+                        <i class="fas fa-code step-icon"></i>
+                        <h3 class="step-title">Реализация</h3>
+                    </div>
+                    <p class="step-description">Выполняем работу согласно утвержденному плану с регулярными отчетами
+                        и демонстрацией промежуточных результатов.</p>
+                    <div class="step-details">
+                        <h4 class="step-details-title">
+                            <i class="fas fa-bug"></i> Процесс:
+                        </h4>
+                        <ul class="step-details-list">
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Agile-разработка (2-недельные спринты)</span>
+                            </li>
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Еженедельные демо-сессии</span>
+                            </li>
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Тестирование каждого этапа</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Шаг 4 -->
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-header">
+                        <i class="fas fa-rocket step-icon"></i>
+                        <h3 class="step-title">Запуск и поддержка</h3>
+                    </div>
+                    <p class="step-description">Осуществляем финальное тестирование, запускаем проект и
+                        предоставляем послепродажную поддержку.</p>
+                    <div class="step-details">
+                        <h4 class="step-details-title">
+                            <i class="fas fa-server"></i> Действия:
+                        </h4>
+                        <ul class="step-details-list">
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Финальное тестирование</span>
+                            </li>
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Обучение пользователей</span>
+                            </li>
+                            <li class="step-details-item">
+                                <i class="fas fa-check"></i>
+                                <span>Гарантийная поддержка</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Секция гарантий -->
+<section class="section guarantees">
+    <div class="container">
+        <h2 class="section-title">Наши гарантии</h2>
+        <p class="section-subtitle">Мы берем на себя обязательства, обеспечивающие ваш комфорт и уверенность в
+            результате</p>
+
+        <div class="guarantees-grid">
+            <!-- Гарантия 1 -->
+            <div class="guarantee-card">
+                <div class="guarantee-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="guarantee-title">Конфиденциальность</h3>
+                <p class="guarantee-description">Строгое соблюдение NDA и защита ваших данных на всех этапах работы
+                </p>
+            </div>
+
+            <!-- Гарантия 2 -->
+            <div class="guarantee-card">
+                <div class="guarantee-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3 class="guarantee-title">Прозрачность</h3>
+                <p class="guarantee-description">Четкие договорные обязательства и открытость всех процессов</p>
+            </div>
+
+            <!-- Гарантия 3 -->
+            <div class="guarantee-card">
+                <div class="guarantee-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h3 class="guarantee-title">Качество</h3>
+                <p class="guarantee-description">Многоуровневый контроль качества на каждом этапе работы</p>
+            </div>
+
+            <!-- Гарантия 4 -->
+            <div class="guarantee-card">
+                <div class="guarantee-icon">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <h3 class="guarantee-title">Поддержка</h3>
+                <p class="guarantee-description">Гарантийные и постгарантийные доработки, оперативное реагирование
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Секция FAQ -->
+<section class="section faq">
+    <div class="faq-container container">
+        <div class="faq-header">
+            <h2 class="section-title">Частые вопросы</h2>
+            <p class="section-subtitle">Ответы на наиболее распространенные вопросы о наших услугах</p>
+        </div>
+
+        <div class="faq-content">
+            <!-- FAQ 1 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Как выбрать подходящую услугу?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Мы предлагаем бесплатную консультацию, где наши эксперты помогут определить оптимальное
+                            решение для ваших задач. Вы можете:</p>
+                        <ul>
+                            <li>Оставить заявку на сайте с описанием ваших потребностей</li>
+                            <li>Заказать бесплатный аудит существующего проекта</li>
+                            <li>Воспользоваться нашим онлайн-гидом по услугам</li>
+                        </ul>
+                        <p>После анализа мы предложим несколько вариантов с оценкой сроков и стоимости.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 2 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Какие сроки выполнения работ?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Сроки зависят от сложности проекта и выбранной услуги:</p>
+                        <ul>
+                            <li><strong>Написание работ:</strong> от 1 дня до 2 недель</li>
+                            <li><strong>Разработка сайтов:</strong> от 1 недели до 3 месяцев</li>
+                            <li><strong>Дизайн:</strong> от 3 дней до 1 месяца</li>
+                            <li><strong>Маркетинг:</strong> первые результаты через 2-4 недели</li>
+                        </ul>
+                        <p>Точные сроки определяются после анализа технического задания.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 3 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Как происходит оплата?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Мы предлагаем гибкие условия оплаты:</p>
+                        <ul>
+                            <li><strong>Фиксированная цена:</strong> 30% предоплата, 70% по завершению</li>
+                            <li><strong>Поэтапная оплата:</strong> для крупных проектов с оплатой за каждый этап
+                            </li>
+                            <li><strong>Подписка:</strong> ежемесячная оплата для маркетинга и поддержки</li>
+                        </ul>
+                        <p>Принимаем платежи банковскими картами, электронными деньгами и банковскими переводами.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 4 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Какие гарантии вы предоставляете?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Мы гарантируем:</p>
+                        <ul>
+                            <li>Соблюдение сроков (штраф за просрочку)</li>
+                            <li>Бесплатные доработки в течение гарантийного периода (от 14 дней до 6 месяцев)</li>
+                            <li>Конфиденциальность и защита ваших данных</li>
+                            <li>Возврат средств при невыполнении обязательств</li>
+                        </ul>
+                        <p>Все гарантии прописываются в договоре.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ 5 -->
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Можно ли заказать несколько услуг со скидкой?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        <p>Да, мы предлагаем специальные условия для комплексных заказов:</p>
+                        <ul>
+                            <li>Скидка до 20% при заказе разработки сайта и маркетинга</li>
+                            <li>Пакетные предложения для стартапов</li>
+                            <li>Специальные тарифы для постоянных клиентов</li>
+                            <li>Сезонные акции и спецпредложения</li>
+                        </ul>
+                        <p>Оставьте заявку, и наш менеджер подберет оптимальное решение для вашего бюджета.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Секция CTA -->
+<section class="cta">
+    <div class="cta-container container">
+        <h2 class="cta-title">Готовы начать проект?</h2>
+        <p class="cta-description">Оставьте заявку и получите бесплатную консультацию от наших экспертов</p>
+        <div class="cta-buttons">
+            <a href="#" class="btn btn-accent">
+                Оставить заявку <i class="fas fa-paper-plane ml-2"></i>
+            </a>
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-phone mr-2"></i> Заказать звонок
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

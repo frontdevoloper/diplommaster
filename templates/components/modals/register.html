@@ -1,0 +1,51 @@
+<!-- Модальное окно регистрации -->
+<div class="modal-overlay" id="register-modal">
+    <div class="modal-container">
+        <div class="modal-header">
+            <button class="modal-close" id="register-close">&times;</button>
+            <h2>Создать аккаунт</h2>
+            <p>Заполните форму для регистрации</p>
+        </div>
+        <div class="modal-body">
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name" class="form-label">Имя</label>
+                    <input type="text" id="register-name" class="form-input" placeholder="Введите ваше имя" required>
+                    <i class="fas fa-user form-input-icon"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-email" class="form-label">Email</label>
+                    <input type="email" id="register-email" class="form-input" placeholder="Введите ваш email" required>
+                    <i class="fas fa-envelope form-input-icon"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-password" class="form-label">Пароль</label>
+                    <input type="password" id="register-password" class="form-input" placeholder="Создайте пароль"
+                        required>
+                    <i class="fas fa-lock form-input-icon"></i>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-confirm" class="form-label">Подтверждение пароля</label>
+                    <input type="password" id="register-confirm" class="form-input" placeholder="Повторите пароль"
+                        required>
+                    <i class="fas fa-lock form-input-icon"></i>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="agree-terms" required>
+                    <span class="checkmark"></span>
+                    <label for="agree-terms">Я согласен с <a href="#">условиями использования</a></label>
+                </div>
+
+                <button type="submit" class="form-submit">Зарегистрироваться</button>
+
+                <div class="form-footer">
+                    Уже есть аккаунт? <a href="#" id="switch-to-login">Войти</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

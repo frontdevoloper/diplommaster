@@ -1,0 +1,56 @@
+<header class="header">
+    <div class="container header-container">
+        <a href="#" class="logo">
+            <div class="logo-icon">DW</div>
+            <span class="text-gradient">DigitalWorks</span>
+        </a>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{{url_for('index')}}" class="nav-link active">Главная</a></li>
+                <li><a href="{{ url_for('services') }}" class="nav-link">Услуги</a></li>
+                <li><a href="#" class="nav-link">Портфолио</a></li>
+                <li><a href="#" class="nav-link">О нас</a></li>
+                <li><a href="#" class="nav-link">Контакты</a></li>
+            </ul>
+
+            <!-- Кнопки авторизации -->
+            <div class="auth-buttons" id="auth-btns">
+                <a href="#" class="btn btn-outline btn-sm" id="login-btn">Войти</a>
+                <a href="#" class="btn btn-primary btn-sm" id="register-btn">Регистрация</a>
+            </div>
+
+            <!-- Профиль пользователя (появляется после авторизации) -->
+            <div class="user-profile" id="user-profile">
+                <div class="user-avatar" id="userAvatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-menu">
+                    <div class="user-menu-item">
+                        <a href="{{url_for('account')}}">
+                            <i class="fas fa-user-circle"></i> Профиль
+                        </a>
+
+                    </div>
+                    <div class="user-menu-item">
+                        <i class="fas fa-shopping-bag"></i> Мои заказы
+                    </div>
+                    <div class="user-menu-item">
+                        <i class="fas fa-cog"></i> Админка
+                    </div>
+                    <div class="user-menu-divider"></div>
+                    <div class="user-menu-item" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Выйти
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</header>
+
+{% include 'components/modals/login.html' %}
+{% include 'components/modals/register.html' %}

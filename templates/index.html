@@ -1,164 +1,43 @@
 {% extends 'base.html' %}
 
+{% block title %}Главная страница{% endblock %}
+
 {% block content %}
-<!-- Герой-секция -->
-<section class="hero">
-    <!-- Анимированные фоновые элементы -->
-    <div class="shape-blob blob-1"></div>
-    <div class="shape-blob blob-2"></div>
-    <div class="shape-blob blob-3"></div>
 
-    <div class="hero-container">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                Профессиональная помощь в
-                <span class="text-gradient">написании работ</span>
-                и <span class="text-gradient">разработке</span>
-            </h1>
-            <p class="hero-description">
-                Мы помогаем студентам и бизнесу с 2010 года. Качественно, конфиденциально и в срок.
-                Более 5000 довольных клиентов по всему миру.
-            </p>
-            <div class="hero-buttons">
-                <a href="#services" class="btn btn-primary btn-lg">
-                    Наши услуги <i class="fas fa-arrow-down"></i>
-                </a>
-                <a href="#" class="btn btn-white btn-lg">
-                    Бесплатная консультация
-                </a>
-            </div>
+{% include 'components/home/hero.html' %}
 
-            <div class="hero-stats">
-                <div class="hero-clients">
-                    <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Client">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client">
-                    <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Client">
-                </div>
-
-                <div class="hero-rating">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <span class="rating-text">Более 1200 отзывов</span>
-                </div>
-            </div>
+<!-- Секция о компании -->
+<section id="about" class="section about">
+    <div class="about-container container">
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                alt="Наша команда">
         </div>
+        <div class="about-content">
+            <h2 class="section-title">О нашей компании</h2>
+            <p>DigitalWorks - это команда профессионалов, объединенных страстью к созданию инновационных
+                digital-решений. Мы работаем на рынке с 2015 года и успешно реализовали более 200 проектов для
+                клиентов из разных отраслей.</p>
+            <p>Наш подход основан на глубоком анализе потребностей бизнеса, использовании современных технологий и
+                креативном мышлении. Мы не просто выполняем задачи, а создаем продукты, которые действительно
+                работают и приносят результат.</p>
 
-        <div class="hero-form">
-            <div class="form-container">
-                <div class="form-header">
-                    <span>Новый заказ</span>
-
+            <div class="about-stats">
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-text">Успешных проектов</div>
                 </div>
-
-                <div class="form-body">
-                    <div class="form-group">
-                        <label class="form-label">Тип работы</label>
-                        <select class="form-select">
-                            <option>Дипломная работа</option>
-                            <option>Курсовая работа</option>
-                            <option>Реферат</option>
-                            <option>Разработка сайта</option>
-                            <option>1С разработка</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Тема работы</label>
-                        <input type="text" class="form-input" placeholder="Введите тему работы">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Срок выполнения</label>
-                        <input type="date" class="form-input">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Объем (страниц)</label>
-                        <input type="range" min="10" max="150" value="50" class="form-range">
-                        <div class="range-labels">
-                            <span>10</span>
-                            <span>150</span>
-                        </div>
-                    </div>
-
-                    <button class="form-submit">
-                        Рассчитать стоимость <i class="fas fa-arrow-right"></i>
-                    </button>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-text">Довольных клиентов</div>
                 </div>
-            </div>
-
-            <div class="bonus-sticker">
-                <div class="bonus-value">-30%</div>
-                <div class="bonus-text">Первый заказ</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Секция услуг -->
-<section id="services" class="section">
-    <div class="section-title">
-        <span class="section-subtitle">Наши услуги</span>
-        <h2 class="section-heading">Что мы предлагаем</h2>
-        <p class="section-description">
-            Мы предоставляем полный спектр услуг для студентов и бизнеса. Качество, сроки и конфиденциальность
-            гарантированы.
-        </p>
-    </div>
-
-    <div class="services-grid">
-        {% for service in services %}
-        <div class="service-card">
-            <div class="service-card-inner">
-                <div class="service-card-front">
-                    <div class="service-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3 class="service-title">{{ service.title }}</h3>
-                    <p class="service-description">
-                        {{ service.description }}
-                    </p>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 80%;"></div>
-                    </div>
-                    <div class="service-meta">
-                        <span>{{ service.duration }}</span>
-                        <span>от {{ service.price }} ₽</span>
-                    </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-text">Профессионалов в команде</div>
                 </div>
-                <div class="service-card-back">
-                    <h3 class="back-title">{{ service.title }}</h3>
-                    <ul class="back-features">
-                        {% for adv in service.advantages.split(';') %}
-                        <li><i class="fas fa-check-circle"></i> {{ adv }}</li>
-                        {% endfor %}
-                    </ul>
-                    <a href="{{ url_for('index') }}" class="back-btn">Подробнее</a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-        <!-- Карточка услуги 2 -->
-
-
-        <!-- Карточка услуги 6 (без анимации поворота) -->
-        <div class="service-card">
-            <div class="service-card-inner">
-                <div class="service-card-front">
-                    <div class="service-icon">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                    <h3 class="service-title">Другие услуги</h3>
-                    <p class="service-description">
-                        Мы также выполняем контрольные, отчеты по практике, презентации, научные статьи и многое
-                        другое.
-                    </p>
-                    <a href="#" class="back-btn">Все услуги</a>
+                <div class="stat-item">
+                    <div class="stat-number">8</div>
+                    <div class="stat-text">Лет опыта</div>
                 </div>
             </div>
         </div>
@@ -166,225 +45,94 @@
 </section>
 
 <!-- Секция преимуществ -->
-<section class="section">
-    <div class="features-container">
-        <div class="features-image">
-            <div class="image-card">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                    alt="Team">
-                <div class="image-card-body">
-                    <h4>Наша команда</h4>
-                    <p>
-                        Над каждым проектом работает команда профессионалов с опытом от 5 лет.
-                        Мы объединяем экспертов из разных областей для решения сложных задач.
-                    </p>
+<section id="features" class="section features">
+    <div class="features-container container">
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <p class="section-subtitle">Мы предлагаем не просто услуги, а комплексные решения с гарантированным
+            результатом</p>
 
-                    <div class="team-members">
-                        <div class="team-member">
-                            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Team member">
-                            <div class="team-member-info">
-                                <h5>Анна Миронова</h5>
-                                <p>Гуманитарные науки</p>
-                            </div>
-                        </div>
-
-                        <div class="team-member">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team member">
-                            <div class="team-member-info">
-                                <h5>Иван Петров</h5>
-                                <p>Технические науки</p>
-                            </div>
-                        </div>
-
-                        <div class="team-member">
-                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Team member">
-                            <div class="team-member-info">
-                                <h5>Елена Смирнова</h5>
-                                <p>IT разработка</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        Москва, Санкт-Петербург, Казань
-                    </div>
+        <div class="features-grid">
+            <!-- Преимущество 1 -->
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-medal"></i>
                 </div>
+                <h3 class="feature-title">Профессионализм</h3>
+                <p class="feature-description">В нашей команде работают сертифицированные специалисты с опытом
+                    работы от 5 лет в своих областях.</p>
             </div>
 
-            <div class="experience-badge">
-                <div class="badge-value">5+</div>
-                <div class="badge-text">Лет опыта</div>
-            </div>
-        </div>
-
-        <div class="features-content">
-            <span class="section-subtitle">Почему мы</span>
-            <h2 class="section-heading">Наши преимущества</h2>
-            <p class="section-description" style="text-align: left; margin-left: 0; margin-bottom: 30px;">
-                Мы выделяемся среди конкурентов благодаря индивидуальному подходу и высоким стандартам качества.
-            </p>
-
-            <div class="feature-item">
+            <!-- Преимущество 2 -->
+            <div class="feature-card">
                 <div class="feature-icon">
                     <i class="fas fa-lock"></i>
                 </div>
-                <div class="feature-text">
-                    <h3>Полная конфиденциальность</h3>
-                    <p>
-                        Мы гарантируем 100% анонимность. Ваши данные не передаются третьим лицам и не сохраняются в
-                        базах.
-                    </p>
-                </div>
+                <h3 class="feature-title">Конфиденциальность</h3>
+                <p class="feature-description">Строго соблюдаем NDA и обеспечиваем полную защиту данных наших
+                    клиентов на всех этапах работы.</p>
             </div>
 
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="feature-text">
-                    <h3>Гарантия качества</h3>
-                    <p>
-                        Все работы проходят многоэтапную проверку: антиплагиат, вычитка методистом, проверка научным
-                        руководителем.
-                    </p>
-                </div>
-            </div>
-
-            <div class="feature-item">
+            <!-- Преимущество 3 -->
+            <div class="feature-card">
                 <div class="feature-icon">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="feature-text">
-                    <h3>Соблюдение сроков</h3>
-                    <p>
-                        Мы ценим ваше время. 98% работ сдаются раньше срока. При задержке - компенсация 10% от
-                        стоимости за каждый день.
-                    </p>
-                </div>
+                <h3 class="feature-title">Соблюдение сроков</h3>
+                <p class="feature-description">Гарантируем выполнение работ в оговоренные сроки с возможностью
+                    контроля процесса.</p>
             </div>
 
-            <div class="feature-item">
+            <!-- Преимущество 4 -->
+            <div class="feature-card">
                 <div class="feature-icon">
                     <i class="fas fa-headset"></i>
                 </div>
-                <div class="feature-text">
-                    <h3>Поддержка 24/7</h3>
-                    <p>
-                        Наши менеджеры и авторы доступны круглосуточно. Среднее время ответа - 15 минут.
-                    </p>
+                <h3 class="feature-title">Поддержка 24/7</h3>
+                <p class="feature-description">Круглосуточная техническая поддержка и оперативное решение любых
+                    вопросов.</p>
+            </div>
+
+            <!-- Преимущество 5 -->
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-contract"></i>
                 </div>
+                <h3 class="feature-title">Прозрачность</h3>
+                <p class="feature-description">Четкие договорные обязательства, фиксированные цены и открытость
+                    всех процессов.</p>
             </div>
-        </div>
-    </div>
-</section>
 
-<!-- Секция процесса работы -->
-<section class="section" style="background-color: #f9fafb;">
-    <div class="section-title">
-        <span class="section-subtitle">Как мы работаем</span>
-        <h2 class="section-heading">Процесс сотрудничества</h2>
-        <p class="section-description">
-            Всего 5 простых шагов отделяют вас от получения готовой работы или проекта.
-        </p>
-    </div>
-
-    <div class="process-container">
-        <div class="process-line"></div>
-
-        <!-- Шаг 1 -->
-        <div class="process-step">
-            <div class="step-content step-right">
-                <div class="step-number">1</div>
-                <h3 class="step-title">Заявка</h3>
-                <p class="step-desc">
-                    Оставьте заявку на сайте или позвоните нам. Укажите тип работы, тему, сроки и дополнительные
-                    требования.
-                </p>
-            </div>
-            <div class="step-icon">
-                <i class="fas fa-file-alt"></i>
-            </div>
-        </div>
-
-        <!-- Шаг 2 -->
-        <div class="process-step">
-            <div class="step-content">
-                <div class="step-number">2</div>
-                <h3 class="step-title">Расчет стоимости</h3>
-                <p class="step-desc">
-                    В течение 15 минут мы рассчитаем стоимость и сроки выполнения работы. Заключаем договор с
-                    фиксированной ценой.
-                </p>
-            </div>
-            <div class="step-icon">
-                <i class="fas fa-calculator"></i>
-            </div>
-        </div>
-
-        <!-- Шаг 3 -->
-        <div class="process-step">
-            <div class="step-content step-right">
-                <div class="step-number">3</div>
-                <h3 class="step-title">Оплата и начало работы</h3>
-                <p class="step-desc">
-                    После предоплаты 25% мы приступаем к работе. Вы можете оплатить картой, через онлайн-банк или
-                    другими способами.
-                </p>
-            </div>
-            <div class="step-icon">
-                <i class="fas fa-credit-card"></i>
-            </div>
-        </div>
-
-        <!-- Шаг 4 -->
-        <div class="process-step">
-            <div class="step-content">
-                <div class="step-number">4</div>
-                <h3 class="step-title">Контроль и корректировки</h3>
-                <p class="step-desc">
-                    Вы получаете часть работы для проверки. При необходимости вносим бесплатные корректировки.
-                </p>
-            </div>
-            <div class="step-icon">
-                <i class="fas fa-tasks"></i>
-            </div>
-        </div>
-
-        <!-- Шаг 5 -->
-        <div class="process-step">
-            <div class="step-content step-right">
-                <div class="step-number">5</div>
-                <h3 class="step-title">Сдача работы</h3>
-                <p class="step-desc">
-                    Получаете готовую работу в оговоренные сроки. Оплачиваете остаток после проверки и одобрения.
-                </p>
-            </div>
-            <div class="step-icon">
-                <i class="fas fa-check-circle"></i>
+            <!-- Преимущество 6 -->
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 class="feature-title">Инновации</h3>
+                <p class="feature-description">Используем только современные технологии и передовые методики
+                    работы.</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Секция отзывов -->
-<section class="section">
-    <div class="section-title">
-        <span class="section-subtitle">Отзывы</span>
-        <h2 class="section-heading">Что говорят наши клиенты</h2>
-        <p class="section-description">
-            Более 5000 студентов и бизнесменов уже воспользовались нашими услугами.
-        </p>
-    </div>
+<section id="testimonials" class="section testimonials">
+    <div class="testimonials-container container">
+        <h2 class="section-title">Отзывы клиентов</h2>
+        <p class="section-subtitle">Что говорят о нас наши клиенты</p>
 
-    <div class="testimonials-grid">
-        <!-- Отзыв 1 -->
-        <div class="testimonial-card">
-            <div class="testimonial-header">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="client-avatar" alt="Client">
-                <div class="client-info">
-                    <h4>Анна К.</h4>
-                    <div class="client-rating">
+        <div class="testimonials-slider">
+            <!-- Отзыв 1 -->
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Анна Смирнова">
+                    </div>
+                    <div class="testimonial-author">
+                        <h4 class="testimonial-name">Анна Смирнова</h4>
+                        <p class="testimonial-position">Директор по маркетингу, ООО "ТехноПром"</p>
+                    </div>
+                    <div class="testimonial-rating">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -392,23 +140,24 @@
                         <i class="fas fa-star"></i>
                     </div>
                 </div>
+                <p class="testimonial-text">Сотрудничаем с DigitalWorks уже более 3 лет. За это время они
+                    разработали для нас корпоративный сайт, лендинги и систему управления контентом. Все работы
+                    выполнены качественно и в срок. Особенно хочу отметить гибкость команды и готовность идти
+                    навстречу
+                    пожеланиям клиента.</p>
             </div>
-            <p class="testimonial-text">
-                Заказала дипломную работу по психологии. Работа выполнена на высшем уровне, все требования
-                соблюдены. Защитилась на "отлично"! Спасибо большое!
-            </p>
-            <div class="testimonial-meta">
-                Дипломная работа · 15 мая 2023
-            </div>
-        </div>
 
-        <!-- Отзыв 2 -->
-        <div class="testimonial-card">
-            <div class="testimonial-header">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="client-avatar" alt="Client">
-                <div class="client-info">
-                    <h4>Дмитрий С.</h4>
-                    <div class="client-rating">
+            <!-- Отзыв 2 -->
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Иван Петров">
+                    </div>
+                    <div class="testimonial-author">
+                        <h4 class="testimonial-name">Иван Петров</h4>
+                        <p class="testimonial-position">Основатель стартапа "GreenTech"</p>
+                    </div>
+                    <div class="testimonial-rating">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -416,23 +165,47 @@
                         <i class="fas fa-star"></i>
                     </div>
                 </div>
+                <p class="testimonial-text">DigitalWorks помогли нам создать MVP нашего продукта за рекордные сроки.
+                    Благодаря их экспертизе мы смогли избежать многих ошибок на старте и выйти на рынок с
+                    качественным решением. Команда проявила себя как настоящие профессионалы, которые болеют за
+                    проект и стремятся к лучшему результату.</p>
             </div>
-            <p class="testimonial-text">
-                Заказывал разработку интернет-магазина. Сделали быстро, качественно, помогли с наполнением. Сайт уже
-                приносит прибыль. Рекомендую!
-            </p>
-            <div class="testimonial-meta">
-                Разработка сайта · 2 июня 2023
-            </div>
-        </div>
 
-        <!-- Отзыв 3 -->
-        <div class="testimonial-card">
-            <div class="testimonial-header">
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="client-avatar" alt="Client">
-                <div class="client-info">
-                    <h4>Елена П.</h4>
-                    <div class="client-rating">
+            <!-- Отзыв 3 -->
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Елена Козлова">
+                    </div>
+                    <div class="testimonial-author">
+                        <h4 class="testimonial-name">Елена Козлова</h4>
+                        <p class="testimonial-position">Руководитель отдела продаж, "ФармаГрупп"</p>
+                    </div>
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                <p class="testimonial-text">Заказали у DigitalWorks разработку интернет-магазина для нашей аптечной
+                    сети. Результат превзошел все ожидания - удобный интерфейс, быстрая загрузка, интеграция с 1С.
+                    После запуска продажи через сайт выросли на 40% по сравнению с предыдущей версией. Обязательно
+                    будем продолжать сотрудничество!</p>
+            </div>
+
+            <!-- Отзыв 4 -->
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Дмитрий Иванов">
+                    </div>
+                    <div class="testimonial-author">
+                        <h4 class="testimonial-name">Дмитрий Иванов</h4>
+                        <p class="testimonial-position">CEO, "TechSolutions"</p>
+                    </div>
+                    <div class="testimonial-rating">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
@@ -440,45 +213,28 @@
                         <i class="fas fa-star"></i>
                     </div>
                 </div>
-            </div>
-            <p class="testimonial-text">
-                Обратилась за срочным рефератом по экономике. Сделали за 2 дня, уникальность 92%. Преподаватель
-                похвалил структуру и оформление. Буду обращаться еще!
-            </p>
-            <div class="testimonial-meta">
-                Реферат · 10 апреля 2023
+                <p class="testimonial-text">DigitalWorks разработали для нас сложную CRM-систему с интеграцией в
+                    существующую инфраструктуру. Работа была выполнена в срок, несмотря на сложные требования.
+                    Особенно впечатлил уровень технической поддержки - любые вопросы решаются в течение нескольких
+                    часов.</p>
             </div>
         </div>
-    </div>
-
-    <div class="section-cta">
-        <a href="#" class="btn btn-primary btn-lg">
-            Все отзывы <i class="fas fa-arrow-right"></i>
-        </a>
     </div>
 </section>
 
-<!-- CTA секция -->
-<section class="cta-section">
-    <div class="cta-container">
-        <h2 class="cta-title">Готовы начать работу?</h2>
-        <p class="cta-desc">
-            Оставьте заявку прямо сейчас и получите бесплатную консультацию от нашего специалиста.
-        </p>
+<!-- Секция CTA -->
+<section id="contact" class="cta">
+    <div class="cta-container container">
+        <h2 class="cta-title">Готовы обсудить ваш проект?</h2>
+        <p class="cta-description">Оставьте заявку и получите бесплатную консультацию от наших экспертов</p>
         <div class="cta-buttons">
-            <a href="#" class="btn btn-white btn-lg">
+            <a href="#" class="btn btn-accent">
                 Оставить заявку <i class="fas fa-paper-plane"></i>
             </a>
-            <a href="#" class="btn btn-lg" style="background-color: transparent; border: 2px solid var(--white);">
-                <i class="fas fa-phone-alt"></i> +7 (999) 123-45-67
+            <a href="#" class="btn btn-outline">
+                <i class="fas fa-phone"></i> Заказать звонок
             </a>
         </div>
     </div>
 </section>
-
 {% endblock %}
-
-<!-- Кнопка "Наверх" -->
-<a href="#" class="back-to-top" id="back-to-top">
-    <i class="fas fa-arrow-up"></i>
-</a>
